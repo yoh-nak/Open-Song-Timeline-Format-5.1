@@ -1,0 +1,85 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Jazz lead and piano comping"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A",
+        "name": "A",
+        "start": 0,
+        "duration": 30720
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "sax",
+      "name": "Sax",
+      "clips": [],
+      "role": "solo"
+    },
+    {
+      "id": "piano",
+      "name": "Piano",
+      "clips": [],
+      "role": "comping",
+      "directions": [
+        {
+          "id": "phrasing-1",
+          "type": "phrasing",
+          "start": 0,
+          "duration": 30720,
+          "parameters": {
+            "onsetGroupsPerQuarter": {
+              "min": 0.25,
+              "max": 2
+            },
+            "development": "contrast",
+            "adherence": "preferred"
+          }
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": [],
+  "ensembleInteractions": [
+    {
+      "id": "piano-answers-sax",
+      "actorTrackId": "piano",
+      "partnerTrackId": "sax",
+      "relation": "respondTo",
+      "start": 0,
+      "duration": 30720,
+      "responseWindowTicks": 3840,
+      "adherence": "preferred"
+    }
+  ]
+}

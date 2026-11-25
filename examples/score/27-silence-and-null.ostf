@@ -1,0 +1,232 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 480,
+  "song": {
+    "title": "Explicit silence, null selection and a partially silent Comp"
+  },
+  "timeline": {
+    "duration": 3840,
+    "sections": [
+      {
+        "id": "chorus",
+        "name": "Chorus",
+        "start": 0,
+        "duration": 3840
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "quiet-track",
+      "name": "Retained source candidates",
+      "clips": [
+        {
+          "id": "q-source-one",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "q-n1",
+              "start": 0,
+              "duration": 480,
+              "pitch": 60,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "q-out-one",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "q-o1",
+              "start": 0,
+              "duration": 480,
+              "pitch": 60,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "q-source-two",
+          "start": 1920,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "q-n2",
+              "start": 0,
+              "duration": 480,
+              "pitch": 67,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "q-out-two",
+          "start": 1920,
+          "duration": 960,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "q-o2",
+              "start": 0,
+              "duration": 480,
+              "pitch": 67,
+              "velocity": 95
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": [],
+  "takeGroups": [
+    {
+      "id": "explicit-silence",
+      "trackId": "quiet-track",
+      "sectionId": "chorus",
+      "startTick": 0,
+      "durationTicks": 1920,
+      "takes": [
+        {
+          "id": "q-t1",
+          "kind": "take",
+          "clipIds": [
+            "q-source-one"
+          ]
+        }
+      ],
+      "comps": [
+        {
+          "id": "sound",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "q-r1",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "q-t1",
+              "clipId": "q-source-one"
+            }
+          ],
+          "outputClipIds": [
+            "q-out-one"
+          ]
+        },
+        {
+          "id": "silence",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "q-r2",
+              "kind": "silence",
+              "startTick": 0,
+              "durationTicks": 1920
+            }
+          ],
+          "outputClipIds": []
+        }
+      ],
+      "activeCompId": "silence",
+      "liveSelection": {
+        "mode": "fixed"
+      },
+      "takeSelectionHistory": [
+        {
+          "sequence": 0,
+          "compId": "sound"
+        },
+        {
+          "sequence": 1,
+          "compId": "silence",
+          "reason": "Explicit all-silence Comp"
+        }
+      ]
+    },
+    {
+      "id": "null-selection",
+      "trackId": "quiet-track",
+      "sectionId": "chorus",
+      "startTick": 1920,
+      "durationTicks": 1920,
+      "takes": [
+        {
+          "id": "q-t2",
+          "kind": "take",
+          "clipIds": [
+            "q-source-two"
+          ]
+        }
+      ],
+      "comps": [
+        {
+          "id": "partial",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "q-r3",
+              "kind": "source",
+              "startTick": 1920,
+              "durationTicks": 960,
+              "takeId": "q-t2",
+              "clipId": "q-source-two"
+            },
+            {
+              "id": "q-r4",
+              "kind": "silence",
+              "startTick": 2880,
+              "durationTicks": 960
+            }
+          ],
+          "outputClipIds": [
+            "q-out-two"
+          ]
+        }
+      ],
+      "activeCompId": null,
+      "liveSelection": {
+        "mode": "manual"
+      },
+      "takeSelectionHistory": [
+        {
+          "sequence": 0,
+          "compId": "historically-deleted-comp"
+        },
+        {
+          "sequence": 1,
+          "compId": null
+        }
+      ]
+    }
+  ]
+}

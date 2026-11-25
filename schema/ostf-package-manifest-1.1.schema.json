@@ -1,0 +1,537 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yoh-nak.github.io/ostf/schema/ostf-package-manifest-1.1.schema.json",
+  "title": "OSTF Project Package Manifest 1.1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "packageFormat": {
+      "const": "OSTFP"
+    },
+    "packageVersion": {
+      "const": "1.1.0"
+    },
+    "projectId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "score": {
+      "$ref": "#/$defs/score"
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/document"
+      }
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/asset"
+      }
+    },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/binding"
+      },
+      "description": "No ambiguous duplicates of (documentPath,resourceKind,resourceId); referents and SHA matching are semantic constraints."
+    },
+    "externalAssets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/externalAsset"
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "packageFormat",
+    "packageVersion",
+    "projectId",
+    "title",
+    "score",
+    "documents",
+    "assets",
+    "bindings"
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 1024,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.\\.?/)(?!.*\\\\)(?!.*://)[^\\x00-\\x1F\\x7F]+$",
+      "description": "POSIX package-relative NFC path; further semantic checks prohibit dot-segments, drive letters, encoded traversal, duplicate normalized names, symlinks."
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "score": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "format": {
+          "const": "OSTF"
+        },
+        "version": {
+          "enum": [
+            "4.3.0",
+            "5.0.0",
+            "5.1.0"
+          ]
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "path",
+        "format",
+        "version",
+        "sha256"
+      ]
+    },
+    "document": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "role": {
+          "enum": [
+            "productionSession",
+            "distributedSession",
+            "supplement",
+            "metadata"
+          ]
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "required": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether host application requires this optional document to claim its requested portable level; absence of this field means false."
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "path",
+        "family",
+        "version",
+        "sha256"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "family": {
+                "const": "OSTF-Production-Session"
+              }
+            },
+            "required": [
+              "family"
+            ]
+          },
+          "then": {
+            "properties": {
+              "role": {
+                "const": "productionSession"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "family": {
+                "enum": [
+                  "OSTF-Distributed-Session-0.2",
+                  "OSTF-Distributed-Session-0.3",
+                  "OSTF-Distributed-Session-0.4"
+                ]
+              }
+            },
+            "required": [
+              "family"
+            ]
+          },
+          "then": {
+            "properties": {
+              "role": {
+                "const": "distributedSession"
+              }
+            }
+          }
+        }
+      ],
+      "description": "Descriptor of exact embedded bytes. Recognized Session families must use their corresponding role; companion versions are selected by the root Score version. SHA and discriminator agreement with actual member bytes is a semantic container constraint."
+    },
+    "asset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "path": {
+          "$ref": "#/$defs/path"
+        },
+        "purpose": {
+          "enum": [
+            "audioSource",
+            "pluginState",
+            "midi",
+            "preset",
+            "scoreAttachment",
+            "other"
+          ]
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "mediaType": {
+          "type": "string",
+          "minLength": 3
+        },
+        "sizeBytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "license": {
+          "type": "string",
+          "description": "Informational claim by the packager only; must not be treated as a license grant."
+        },
+        "copyright": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "path",
+        "purpose",
+        "sha256",
+        "mediaType",
+        "sizeBytes"
+      ]
+    },
+    "binding": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "documentPath": {
+          "$ref": "#/$defs/path"
+        },
+        "resourceId": {
+          "$ref": "#/$defs/id"
+        },
+        "assetId": {
+          "$ref": "#/$defs/id"
+        },
+        "resourceKind": {
+          "enum": [
+            "coreResource",
+            "productionAsset"
+          ]
+        }
+      },
+      "required": [
+        "documentPath",
+        "resourceId",
+        "assetId",
+        "resourceKind"
+      ],
+      "description": "Package binding is a byte-resolution map scoped by documentPath; it must not rewrite origin JSON URI fields or imply execution permissions."
+    },
+    "externalAsset": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "uri": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "purpose": {
+          "type": "string",
+          "minLength": 1
+        },
+        "onMissing": {
+          "enum": [
+            "warn",
+            "fail"
+          ]
+        },
+        "authorizationRequired": {
+          "const": true
+        }
+      },
+      "required": [
+        "id",
+        "uri",
+        "purpose",
+        "onMissing",
+        "authorizationRequired"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "score": {
+            "properties": {
+              "version": {
+                "const": "4.3.0"
+              }
+            },
+            "required": [
+              "version"
+            ]
+          }
+        },
+        "required": [
+          "score"
+        ]
+      },
+      "then": {
+        "properties": {
+          "documents": {
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "role": {
+                        "const": "productionSession"
+                      }
+                    },
+                    "required": [
+                      "role"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "family": {
+                        "const": "OSTF-Production-Session"
+                      },
+                      "version": {
+                        "const": "0.2.0"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "role": {
+                        "const": "distributedSession"
+                      }
+                    },
+                    "required": [
+                      "role"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "family": {
+                        "const": "OSTF-Distributed-Session-0.2"
+                      },
+                      "version": {
+                        "const": "0.2"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "score": {
+            "properties": {
+              "version": {
+                "const": "5.0.0"
+              }
+            },
+            "required": [
+              "version"
+            ]
+          }
+        },
+        "required": [
+          "score"
+        ]
+      },
+      "then": {
+        "properties": {
+          "documents": {
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "role": {
+                        "const": "productionSession"
+                      }
+                    },
+                    "required": [
+                      "role"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "family": {
+                        "const": "OSTF-Production-Session"
+                      },
+                      "version": {
+                        "const": "0.3.0"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "role": {
+                        "const": "distributedSession"
+                      }
+                    },
+                    "required": [
+                      "role"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "family": {
+                        "const": "OSTF-Distributed-Session-0.3"
+                      },
+                      "version": {
+                        "const": "0.3"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "score": {
+            "properties": {
+              "version": {
+                "const": "5.1.0"
+              }
+            },
+            "required": [
+              "version"
+            ]
+          }
+        },
+        "required": [
+          "score"
+        ]
+      },
+      "then": {
+        "properties": {
+          "documents": {
+            "items": {
+              "allOf": [
+                {
+                  "if": {
+                    "properties": {
+                      "role": {
+                        "const": "productionSession"
+                      }
+                    },
+                    "required": [
+                      "role"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "family": {
+                        "const": "OSTF-Production-Session"
+                      },
+                      "version": {
+                        "const": "0.4.0"
+                      }
+                    }
+                  }
+                },
+                {
+                  "if": {
+                    "properties": {
+                      "role": {
+                        "const": "distributedSession"
+                      }
+                    },
+                    "required": [
+                      "role"
+                    ]
+                  },
+                  "then": {
+                    "properties": {
+                      "family": {
+                        "const": "OSTF-Distributed-Session-0.4"
+                      },
+                      "version": {
+                        "const": "0.4"
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$comment": "Integrated OSTF 5.1 written specification, 2026-11-25. Inherited schemas are preserved separately. Local reference integrity and publication structure are distinct from semantic conformance and implementation/runtime certification. Timing coordinates and their arithmetic endpoints must remain safe integers."
+}

@@ -1,0 +1,128 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Lyric alternatives and independent open R&B vocal intent"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A",
+        "name": "A",
+        "start": 0,
+        "duration": 30720
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "vocal",
+      "name": "Singer",
+      "clips": [],
+      "directions": [
+        {
+          "id": "vocalFreedom-1",
+          "type": "vocalFreedom",
+          "start": 0,
+          "duration": 30720,
+          "parameters": {
+            "voiceId": "v1",
+            "textPolicy": "alternatives",
+            "melodyPolicy": "open",
+            "candidatePhraseSets": [
+              {
+                "phraseIds": [
+                  "text-1"
+                ]
+              },
+              {
+                "phraseIds": [
+                  "text-2"
+                ]
+              }
+            ],
+            "adherence": "preferred"
+          }
+        }
+      ]
+    },
+    {
+      "id": "lead",
+      "name": "Lead Vocal",
+      "clips": [],
+      "directions": [
+        {
+          "id": "open-vocal-direction",
+          "type": "vocalFreedom",
+          "start": 0,
+          "duration": 30720,
+          "parameters": {
+            "voiceId": "voice-lead",
+            "textPolicy": "open",
+            "melodyPolicy": "open",
+            "vocalizationKind": "lexical",
+            "adherence": "preferred"
+          }
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [
+      {
+        "id": "doc-v"
+      },
+      {
+        "id": "doc-lead",
+        "title": "Lead lyric"
+      }
+    ],
+    "phrases": [
+      {
+        "id": "text-1",
+        "documentId": "doc-v",
+        "text": "Morning light"
+      },
+      {
+        "id": "text-2",
+        "documentId": "doc-v",
+        "text": "Evening sky"
+      }
+    ],
+    "units": [],
+    "alignments": [],
+    "voices": [
+      {
+        "id": "v1",
+        "trackId": "vocal",
+        "documentId": "doc-v"
+      },
+      {
+        "id": "voice-lead",
+        "trackId": "lead",
+        "documentId": "doc-lead",
+        "role": "lead"
+      }
+    ]
+  },
+  "resources": []
+}

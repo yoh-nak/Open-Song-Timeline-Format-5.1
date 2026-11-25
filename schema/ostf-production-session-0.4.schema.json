@@ -1,0 +1,2002 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yoh-nak.github.io/ostf/schema/ostf-production-session-0.4.schema.json",
+  "title": "OSTF Production Session 0.4.0",
+  "description": "Complete Production 0.4, pinned to exact Score 5.1.0 bytes. Inherits Production 0.3 channels, devices, assets, automation and Audio Regions, and adds optional non-destructive Audio Take Groups.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "profile": {
+      "const": "OSTF-Production-Session"
+    },
+    "profileVersion": {
+      "const": "0.4.0"
+    },
+    "score": {
+      "$ref": "#/$defs/score"
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/channel"
+      },
+      "minItems": 1
+    },
+    "devices": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/device"
+      },
+      "minItems": 0
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/asset"
+      },
+      "minItems": 0
+    },
+    "automation": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/automation"
+      },
+      "minItems": 0
+    },
+    "notes": {
+      "type": "string"
+    },
+    "hostExtensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/hostExtension"
+      }
+    },
+    "audioRegions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/audioRegion"
+      },
+      "minItems": 0,
+      "description": "Optional authored audio-region arrangement in source-score global Tick time. Does not modify OSTF Core Clips/Notes."
+    },
+    "sidechainConnections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sidechainConnection"
+      },
+      "minItems": 0,
+      "description": "Optional typed, acyclic audio detector/key inputs to effect plugin ports; not part of normal audible output routing."
+    },
+    "audioTakeGroups": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/audioTakeGroup51"
+      }
+    }
+  },
+  "required": [
+    "profile",
+    "profileVersion",
+    "score",
+    "channels"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\S+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "score": {
+      "type": "object",
+      "properties": {
+        "formatVersion": {
+          "const": "5.1.0"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "documentId": {
+          "$ref": "#/$defs/id"
+        },
+        "revisionId": {
+          "$ref": "#/$defs/id"
+        },
+        "sourceUri": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "formatVersion",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "channel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "track",
+            "audioTrack",
+            "bus",
+            "master"
+          ],
+          "description": "audioTrack is a production-only recorded-audio channel, and MUST NOT claim a Core trackId. kind track still maps an OSTF Track exactly as in 0.1."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trackId": {
+          "$ref": "#/$defs/id"
+        },
+        "audioChannels": {
+          "enum": [
+            1,
+            2
+          ]
+        },
+        "gainDb": {
+          "type": "number",
+          "minimum": -120,
+          "maximum": 24
+        },
+        "pan": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "mute": {
+          "type": "boolean"
+        },
+        "solo": {
+          "type": "boolean"
+        },
+        "soloSafe": {
+          "type": "boolean"
+        },
+        "outputChannelId": {
+          "$ref": "#/$defs/id"
+        },
+        "deviceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "sends": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/send"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "audioChannels",
+        "gainDb",
+        "pan",
+        "mute",
+        "solo",
+        "soloSafe",
+        "deviceIds"
+      ],
+      "additionalProperties": false
+    },
+    "send": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "targetChannelId": {
+          "$ref": "#/$defs/id"
+        },
+        "gainDb": {
+          "type": "number",
+          "minimum": -120,
+          "maximum": 24
+        },
+        "preFader": {
+          "type": "boolean"
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "targetChannelId",
+        "gainDb",
+        "preFader",
+        "enabled"
+      ],
+      "additionalProperties": false
+    },
+    "device": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "role": {
+          "enum": [
+            "instrument",
+            "effect",
+            "utility"
+          ]
+        },
+        "plugin": {
+          "$ref": "#/$defs/plugin"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "bypass": {
+          "type": "boolean"
+        },
+        "stateAssetId": {
+          "$ref": "#/$defs/id"
+        },
+        "onUnavailable": {
+          "enum": [
+            "reportAndPreserve",
+            "preserveAndBypass",
+            "preserveAndSilence"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "plugin",
+        "enabled",
+        "bypass"
+      ],
+      "additionalProperties": false
+    },
+    "plugin": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "enum": [
+            "vst2",
+            "vst3",
+            "clap",
+            "au",
+            "aax",
+            "builtin",
+            "hostNative",
+            "other"
+          ]
+        },
+        "pluginId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vendor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "namespace": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "format",
+        "pluginId",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "asset": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "purpose": {
+          "enum": [
+            "pluginState",
+            "renderedAudio",
+            "other",
+            "audioSource"
+          ]
+        },
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "mediaType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "byteLength": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sampleRateHz": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 768000,
+          "description": "Audio-source decoded sample frames per second; required only for purpose audioSource."
+        },
+        "frameCount": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of decoded sample frames in the complete audio source asset; required for audioSource.",
+          "maximum": 9007199254740991
+        },
+        "audioChannels": {
+          "type": "integer",
+          "enum": [
+            1,
+            2
+          ],
+          "description": "Mono/stereo decoded source-channel count; required only for audioSource in 0.2."
+        }
+      },
+      "required": [
+        "id",
+        "purpose",
+        "uri",
+        "sha256"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "purpose": {
+                "const": "audioSource"
+              }
+            },
+            "required": [
+              "purpose"
+            ]
+          },
+          "then": {
+            "required": [
+              "sampleRateHz",
+              "frameCount",
+              "audioChannels",
+              "mediaType"
+            ]
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "sampleRateHz"
+                  ]
+                },
+                {
+                  "required": [
+                    "frameCount"
+                  ]
+                },
+                {
+                  "required": [
+                    "audioChannels"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Opaque asset descriptors. audioSource requires sampling metadata for frame-accurate regions; plug-in state remains uninterpreted and never executable merely by presence in JSON."
+    },
+    "automation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "target": {
+          "$ref": "#/$defs/automationTarget"
+        },
+        "valueType": {
+          "enum": [
+            "number",
+            "boolean"
+          ]
+        },
+        "interpolation": {
+          "enum": [
+            "step",
+            "linear"
+          ]
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "id",
+        "target",
+        "valueType",
+        "interpolation",
+        "points"
+      ],
+      "additionalProperties": false,
+      "description": "Unique source-global-Tick automation lane. Boolean controls use step interpolation. A single lane per exact target; static value acts as baseline before first point where available. Device plugin parameters are normalized 0..1, while deviceControl.enabled/bypass are explicit booleans. Draft 0.8 adds exact numeric domain constraints (Channel/Send/Region dB, Pan, normalized Plugin Parameter), and boolean target type enforcement.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "valueType": {
+                "const": "boolean"
+              }
+            },
+            "required": [
+              "valueType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "interpolation": {
+                "const": "step"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "valueType": {
+                "const": "boolean"
+              }
+            },
+            "required": [
+              "valueType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "interpolation": {
+                "const": "step"
+              },
+              "points": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "value": {
+                      "type": "boolean"
+                    },
+                    "atTick": {
+                      "type": "integer",
+                      "minimum": 0,
+                      "maximum": 9007199254740991
+                    }
+                  },
+                  "required": [
+                    "atTick",
+                    "value"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "valueType": {
+                "const": "number"
+              }
+            },
+            "required": [
+              "valueType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "points": {
+                "type": "array",
+                "items": {
+                  "properties": {
+                    "value": {
+                      "type": "number"
+                    }
+                  },
+                  "required": [
+                    "value"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": {
+                    "const": "channel"
+                  },
+                  "parameter": {
+                    "const": "mute"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "parameter"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valueType": {
+                "const": "boolean"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": {
+                    "const": "send"
+                  },
+                  "parameter": {
+                    "const": "enabled"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "parameter"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valueType": {
+                "const": "boolean"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": {
+                    "const": "audioRegion"
+                  },
+                  "parameter": {
+                    "const": "mute"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "parameter"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valueType": {
+                "const": "boolean"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": {
+                    "const": "deviceControl"
+                  },
+                  "parameter": {
+                    "const": "enabled"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "parameter"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valueType": {
+                "const": "boolean"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": {
+                    "const": "deviceControl"
+                  },
+                  "parameter": {
+                    "const": "bypass"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "parameter"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valueType": {
+                "const": "boolean"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": {
+                    "const": "device"
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valueType": {
+                "const": "number"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": {
+                    "const": "channel"
+                  },
+                  "parameter": {
+                    "const": "gainDb"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "parameter"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valueType": {
+                "const": "number"
+              },
+              "points": {
+                "items": {
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "minimum": -120,
+                      "maximum": 24
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": {
+                    "const": "channel"
+                  },
+                  "parameter": {
+                    "const": "pan"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "parameter"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valueType": {
+                "const": "number"
+              },
+              "points": {
+                "items": {
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "minimum": -1,
+                      "maximum": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": {
+                    "const": "send"
+                  },
+                  "parameter": {
+                    "const": "gainDb"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "parameter"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valueType": {
+                "const": "number"
+              },
+              "points": {
+                "items": {
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "minimum": -120,
+                      "maximum": 24
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": {
+                    "const": "audioRegion"
+                  },
+                  "parameter": {
+                    "const": "gainDb"
+                  }
+                },
+                "required": [
+                  "kind",
+                  "parameter"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valueType": {
+                "const": "number"
+              },
+              "points": {
+                "items": {
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "minimum": -120,
+                      "maximum": 24
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "target": {
+                "properties": {
+                  "kind": {
+                    "const": "device"
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              }
+            },
+            "required": [
+              "target"
+            ]
+          },
+          "then": {
+            "properties": {
+              "valueType": {
+                "const": "number"
+              },
+              "points": {
+                "items": {
+                  "properties": {
+                    "value": {
+                      "type": "number",
+                      "minimum": 0,
+                      "maximum": 1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "automationTarget": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "channel"
+            },
+            "channelId": {
+              "$ref": "#/$defs/id"
+            },
+            "parameter": {
+              "enum": [
+                "gainDb",
+                "pan",
+                "mute"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "channelId",
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "device"
+            },
+            "deviceId": {
+              "$ref": "#/$defs/id"
+            },
+            "parameterId": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "kind",
+            "deviceId",
+            "parameterId"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "send"
+            },
+            "sendId": {
+              "$ref": "#/$defs/id"
+            },
+            "parameter": {
+              "enum": [
+                "gainDb",
+                "enabled"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "sendId",
+            "parameter"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "audioRegion"
+            },
+            "audioRegionId": {
+              "$ref": "#/$defs/id"
+            },
+            "parameter": {
+              "enum": [
+                "gainDb",
+                "mute"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "audioRegionId",
+            "parameter"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "deviceControl"
+            },
+            "deviceId": {
+              "$ref": "#/$defs/id"
+            },
+            "parameter": {
+              "enum": [
+                "enabled",
+                "bypass"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "deviceId",
+            "parameter"
+          ]
+        }
+      ],
+      "description": "Channel, plugin parameter, Send, audio Region, or Device slot control automation target. Non-channel options added to the unpublished 0.2 development draft. References resolve within this Production Profile, not into MIDI CC or Core Note IDs."
+    },
+    "point": {
+      "type": "object",
+      "properties": {
+        "atTick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "required": [
+        "atTick",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "hostExtension": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9]+(?:\\.[A-Za-z0-9-]+)+$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "namespace",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "audioRegion": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Source-score-tick audio segment on a production track or score-bound track channel, referencing a bounded range of exact audioSource PCM-decoded frames.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "channelId": {
+          "$ref": "#/$defs/id"
+        },
+        "sourceAssetId": {
+          "$ref": "#/$defs/id"
+        },
+        "startTick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "durationTicks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "sourceStartFrame": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "sourceFrameCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "playbackMode": {
+          "enum": [
+            "native",
+            "fit"
+          ],
+          "description": "native maps ideal source-time seconds to sample frames at sampleRateHz; fit uniformly maps authored global Tick progress to the selected frame interval."
+        },
+        "pitchPolicy": {
+          "enum": [
+            "preserve",
+            "followRate"
+          ],
+          "description": "Required for fit; preserve means retain source pitch as a musical goal, followRate means speed/rate-based pitch change. Both are DSP/host dependent."
+        },
+        "gainDb": {
+          "type": "number",
+          "minimum": -120,
+          "maximum": 24
+        },
+        "mute": {
+          "type": "boolean"
+        },
+        "fadeInTicks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "fadeOutTicks": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        }
+      },
+      "required": [
+        "id",
+        "channelId",
+        "sourceAssetId",
+        "startTick",
+        "durationTicks",
+        "sourceStartFrame",
+        "sourceFrameCount",
+        "playbackMode",
+        "gainDb",
+        "mute"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "playbackMode": {
+                "const": "fit"
+              }
+            },
+            "required": [
+              "playbackMode"
+            ]
+          },
+          "then": {
+            "required": [
+              "pitchPolicy"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "pitchPolicy"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "sidechainConnection": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Directed detector/key signal from sourceChannelId to named key input port of an effect Device belonging to a different audio channel. Does not mix into its audible output path.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "sourceChannelId": {
+          "$ref": "#/$defs/id"
+        },
+        "targetDeviceId": {
+          "$ref": "#/$defs/id"
+        },
+        "targetPortId": {
+          "$ref": "#/$defs/id",
+          "description": "Opaque plugin-format-scoped sidechain input identifier. A host must verify the port actually exists; no port auto-matching by label."
+        },
+        "tapPoint": {
+          "enum": [
+            "preFader",
+            "postFader"
+          ]
+        },
+        "followMute": {
+          "type": "boolean",
+          "description": "If true, source channel mute suppresses this sidechain; if false, the detector feed can remain present even when that source channel is muted audibly."
+        },
+        "gainDb": {
+          "type": "number",
+          "minimum": -120,
+          "maximum": 24
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "sourceChannelId",
+        "targetDeviceId",
+        "targetPortId",
+        "tapPoint",
+        "followMute",
+        "gainDb",
+        "enabled"
+      ]
+    },
+    "takeId51": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+      "not": {
+        "pattern": "[\\r\\n\\u2028\\u2029]"
+      }
+    },
+    "takeTick51": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "takeDuration51": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 9007199254740991
+    },
+    "takeOrigin51": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "human",
+            "ai",
+            "import",
+            "derived",
+            "unknown"
+          ]
+        },
+        "actorId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "participantId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "sessionId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "proposalId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "commitEventId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "prompt": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "model": {
+          "type": "string"
+        },
+        "sourceUri": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "kind"
+      ],
+      "description": "Optional inert provenance. Actor/session/proposal identifiers and prompts do not confer permissions or perform any network or generation action."
+    },
+    "takeRating51": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "evaluatorId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "score": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "comment": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "evaluatorId",
+        "score"
+      ]
+    },
+    "takeVisitSelection51": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "performancePlanId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "visitId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "compId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+              "not": {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "performancePlanId",
+        "visitId",
+        "compId"
+      ],
+      "description": "Comp selection overlay for one existing finite Performance Plan Visit. The Plan/Visit pair must be unique per Group. null denotes silence. Only the Group/Visit source-range intersection is selected."
+    },
+    "takeLiveCandidate51": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "compId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "weight": {
+          "type": "number",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "compId"
+      ]
+    },
+    "takeSelectionHistory51": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "compId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+              "not": {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "actorId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "recordedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "sequence",
+        "compId"
+      ],
+      "description": "Informational saved-selection history, strictly increasing in sequence within its Group. Historical deleted Comp IDs may be retained; history never changes current selection or playback."
+    },
+    "takeTransition51": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "atTick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "startTick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "durationTicks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "curve": {
+          "enum": [
+            "linear",
+            "equalPower",
+            "customRendered"
+          ]
+        }
+      },
+      "required": [
+        "atTick",
+        "startTick",
+        "durationTicks",
+        "curve"
+      ],
+      "description": "Declared crossfade window strictly containing an adjacent different-source junction at atTick. Windows must be disjoint, inside the Group, and backed by both source handles. regions output supports linear only; equalPower/customRendered are already baked into rendered output and must not be reapplied."
+    },
+    "takeLiveSelection51": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "mode": {
+          "enum": [
+            "fixed",
+            "manual",
+            "cycle",
+            "random",
+            "weighted"
+          ]
+        },
+        "candidates": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/takeLiveCandidate51"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "mode"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "enum": [
+                  "cycle",
+                  "random",
+                  "weighted"
+                ]
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "required": [
+              "candidates"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "candidates"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "mode": {
+                "const": "weighted"
+              }
+            },
+            "required": [
+              "mode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "candidates": {
+                "items": {
+                  "required": [
+                    "weight"
+                  ]
+                },
+                "contains": {
+                  "type": "object",
+                  "properties": {
+                    "weight": {
+                      "type": "number",
+                      "exclusiveMinimum": 0
+                    }
+                  },
+                  "required": [
+                    "weight"
+                  ]
+                },
+                "minContains": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "candidates": {
+                "items": {
+                  "not": {
+                    "required": [
+                      "weight"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "description": "Optional launch-time selection policy. fixed/manual have no candidates; cycle/random/weighted require distinct Comp IDs. weighted requires all nonnegative weights and at least one positive weight. Distinct compId values and reference resolution are semantic constraints."
+    },
+    "audioTake51": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "kind": {
+          "enum": [
+            "take",
+            "variation",
+            "alternative"
+          ]
+        },
+        "audioRegionIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "not": {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            }
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "laneOrder": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "parentTakeId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "origin": {
+          "$ref": "#/$defs/takeOrigin51"
+        },
+        "ratings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/takeRating51"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "audioRegionIds"
+      ]
+    },
+    "audioCompRegion51": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+              "not": {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            },
+            "startTick": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "durationTicks": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "kind": {
+              "const": "source"
+            },
+            "takeId": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+              "not": {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            },
+            "audioRegionId": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+              "not": {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "startTick",
+            "durationTicks",
+            "takeId",
+            "audioRegionId"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+              "not": {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            },
+            "startTick": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 9007199254740991
+            },
+            "durationTicks": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 9007199254740991
+            },
+            "kind": {
+              "const": "silence"
+            }
+          },
+          "required": [
+            "id",
+            "kind",
+            "startTick",
+            "durationTicks"
+          ]
+        }
+      ]
+    },
+    "audioComp51": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "name": {
+          "type": "string"
+        },
+        "compRegions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/audioCompRegion51"
+          },
+          "minItems": 1
+        },
+        "outputAudioRegionIds": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+            "not": {
+              "pattern": "[\\r\\n\\u2028\\u2029]"
+            }
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "outputMode": {
+          "enum": [
+            "regions",
+            "rendered"
+          ]
+        },
+        "transitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/takeTransition51"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        }
+      },
+      "required": [
+        "id",
+        "compRegions",
+        "outputAudioRegionIds",
+        "outputMode"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "outputMode": {
+                "const": "regions"
+              }
+            },
+            "required": [
+              "outputMode"
+            ]
+          },
+          "then": {
+            "properties": {
+              "transitions": {
+                "items": {
+                  "properties": {
+                    "curve": {
+                      "const": "linear"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "compRegions": {
+                "contains": {
+                  "properties": {
+                    "kind": {
+                      "const": "source"
+                    }
+                  },
+                  "required": [
+                    "kind"
+                  ]
+                },
+                "minContains": 1
+              }
+            },
+            "required": [
+              "compRegions"
+            ]
+          },
+          "then": {
+            "properties": {
+              "outputAudioRegionIds": {
+                "minItems": 1
+              }
+            }
+          },
+          "else": {
+            "properties": {
+              "outputAudioRegionIds": {
+                "maxItems": 0
+              },
+              "transitions": {
+                "maxItems": 0
+              }
+            }
+          }
+        }
+      ],
+      "description": "A complete ordered partition of the Group's range into selected source or explicit-silence regions. The map is the editing authority; ordinary materialized output is playback authority. All-silence Comp has no outputs; any source region requires at least one output descriptor (MIDI may contain an empty notes array). IDs and ranges must resolve consistently in a single authoring transaction."
+    },
+    "audioTakeGroup51": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "channelId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "startTick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "durationTicks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "name": {
+          "type": "string"
+        },
+        "sectionId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+          "not": {
+            "pattern": "[\\r\\n\\u2028\\u2029]"
+          }
+        },
+        "takes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/audioTake51"
+          },
+          "minItems": 1
+        },
+        "comps": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/audioComp51"
+          },
+          "minItems": 0
+        },
+        "activeCompId": {
+          "anyOf": [
+            {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$",
+              "not": {
+                "pattern": "[\\r\\n\\u2028\\u2029]"
+              }
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "One Comp ID in this Group, or null for silence. Empty comps requires null. This saved selection controls the ordinary output flags; Visit/live selection overlays do not rewrite these saved flags."
+        },
+        "visitSelections": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/takeVisitSelection51"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "liveSelection": {
+          "$ref": "#/$defs/takeLiveSelection51"
+        },
+        "takeSelectionHistory": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/takeSelectionHistory51"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "id",
+        "channelId",
+        "startTick",
+        "durationTicks",
+        "takes",
+        "comps",
+        "activeCompId"
+      ],
+      "description": "Non-overlapping source-score Tick range owned by channelId. All ranges use Score PPQ, are half-open, and have safe-integer endpoints. Sources and independently identified materialized outputs remain on the existing timeline; source candidates never play as ordinary active clips. References, ownership, range sums, unique scoped IDs and flags require semantic validation in addition to this schema.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "comps": {
+                "maxItems": 0
+              }
+            },
+            "required": [
+              "comps"
+            ]
+          },
+          "then": {
+            "properties": {
+              "activeCompId": {
+                "type": "null"
+              },
+              "visitSelections": {
+                "items": {
+                  "properties": {
+                    "compId": {
+                      "type": "null"
+                    }
+                  }
+                }
+              },
+              "liveSelection": {
+                "properties": {
+                  "mode": {
+                    "enum": [
+                      "fixed",
+                      "manual"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "$comment": "Integrated OSTF 5.1 written specification, 2026-11-25. Inherited schemas are preserved separately. Local reference integrity and publication structure are distinct from semantic conformance and implementation/runtime certification. Timing coordinates and their arithmetic endpoints must remain safe integers."
+}

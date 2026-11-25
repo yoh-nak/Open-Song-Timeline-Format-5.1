@@ -1,0 +1,530 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Gospel vocal response — fixed Plan lyric, phoneme and curve boundaries"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A",
+        "name": "Call",
+        "start": 0,
+        "duration": 3840
+      },
+      {
+        "id": "B",
+        "name": "Response",
+        "start": 7680,
+        "duration": 3840
+      },
+      {
+        "id": "C",
+        "name": "Tag",
+        "start": 11520,
+        "duration": 3840
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ],
+    "duration": 15360
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "lead",
+      "name": "Lead",
+      "clips": [
+        {
+          "id": "lead-clip",
+          "start": 0,
+          "duration": 15360,
+          "notes": [
+            {
+              "id": "lead-a-hold",
+              "start": 3600,
+              "duration": 720,
+              "pitch": 69,
+              "velocity": 85
+            },
+            {
+              "id": "lead-omitted-gap",
+              "start": 7400,
+              "duration": 800,
+              "pitch": 67,
+              "velocity": 82
+            },
+            {
+              "id": "lead-b-carry",
+              "start": 11280,
+              "duration": 720,
+              "pitch": 72,
+              "velocity": 88
+            },
+            {
+              "id": "lead-c-at-join",
+              "start": 11520,
+              "duration": 480,
+              "pitch": 74,
+              "velocity": 86
+            }
+          ],
+          "vocalPerformances": [
+            {
+              "id": "vp-lead",
+              "voiceId": "vlead",
+              "noteIds": [
+                "lead-a-hold",
+                "lead-omitted-gap",
+                "lead-b-carry",
+                "lead-c-at-join"
+              ],
+              "phonemeEvents": [
+                {
+                  "id": "ph-lead-a",
+                  "unitId": "u-lead-stay",
+                  "noteId": "lead-a-hold",
+                  "alphabet": "ipa",
+                  "symbol": "s",
+                  "start": 3600,
+                  "duration": 600
+                },
+                {
+                  "id": "ph-lead-gap",
+                  "unitId": "u-lead-with",
+                  "noteId": "lead-omitted-gap",
+                  "alphabet": "ipa",
+                  "symbol": "w",
+                  "start": 7400,
+                  "duration": 500
+                },
+                {
+                  "id": "ph-lead-b",
+                  "unitId": "u-lead-with",
+                  "noteId": "lead-b-carry",
+                  "alphabet": "ipa",
+                  "symbol": "w",
+                  "start": 11280,
+                  "duration": 500
+                },
+                {
+                  "id": "ph-lead-c",
+                  "unitId": "u-lead-me",
+                  "noteId": "lead-c-at-join",
+                  "alphabet": "ipa",
+                  "symbol": "m",
+                  "start": 11520,
+                  "duration": 330
+                },
+                {
+                  "id": "ph-untargeted-unit",
+                  "unitId": "u-lead-me",
+                  "alphabet": "ipa",
+                  "symbol": "e",
+                  "start": 11700,
+                  "duration": 140
+                }
+              ],
+              "pitchCurves": [
+                {
+                  "id": "pitch-a",
+                  "targetNoteId": "lead-a-hold",
+                  "unit": "cents",
+                  "interpolation": "linear",
+                  "points": [
+                    {
+                      "at": 3600,
+                      "value": 0
+                    },
+                    {
+                      "at": 4200,
+                      "value": 25
+                    }
+                  ]
+                },
+                {
+                  "id": "pitch-b",
+                  "targetNoteId": "lead-b-carry",
+                  "unit": "cents",
+                  "interpolation": "linear",
+                  "points": [
+                    {
+                      "at": 11280,
+                      "value": 0
+                    },
+                    {
+                      "at": 11800,
+                      "value": 35
+                    }
+                  ]
+                }
+              ],
+              "expressionCurves": [
+                {
+                  "id": "expr-b",
+                  "parameter": "dynamics",
+                  "targetNoteId": "lead-b-carry",
+                  "interpolation": "linear",
+                  "points": [
+                    {
+                      "at": 11280,
+                      "value": 0.55
+                    },
+                    {
+                      "at": 11800,
+                      "value": 0.7
+                    }
+                  ]
+                },
+                {
+                  "id": "expr-lead-voice-breathiness",
+                  "parameter": "breathiness",
+                  "interpolation": "linear",
+                  "points": [
+                    {
+                      "at": 3400,
+                      "value": 0.3
+                    },
+                    {
+                      "at": 3800,
+                      "value": 0.45
+                    },
+                    {
+                      "at": 7600,
+                      "value": 0.25
+                    },
+                    {
+                      "at": 8000,
+                      "value": 0.65
+                    },
+                    {
+                      "at": 11400,
+                      "value": 0.55
+                    },
+                    {
+                      "at": 11600,
+                      "value": 0.7
+                    },
+                    {
+                      "at": 12500,
+                      "value": 0.4
+                    }
+                  ]
+                }
+              ],
+              "techniques": [
+                {
+                  "id": "tech-a",
+                  "kind": "legato",
+                  "start": 3600,
+                  "duration": 500,
+                  "targetNoteId": "lead-a-hold"
+                },
+                {
+                  "id": "tech-voice-at-join",
+                  "kind": "humming",
+                  "start": 11490,
+                  "duration": 160
+                }
+              ],
+              "breathEvents": [
+                {
+                  "id": "breath-a",
+                  "kind": "inhale",
+                  "start": 3420,
+                  "duration": 120
+                },
+                {
+                  "id": "breath-gap-unselected",
+                  "kind": "inhale",
+                  "start": 7300,
+                  "duration": 180
+                },
+                {
+                  "id": "breath-b-to-c-join",
+                  "kind": "exhale",
+                  "start": 11480,
+                  "duration": 220
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "directions": [
+        {
+          "id": "free-vlead",
+          "type": "vocalFreedom",
+          "start": 0,
+          "duration": 3840,
+          "parameters": {
+            "voiceId": "vlead",
+            "textPolicy": "fixed",
+            "melodyPolicy": "ornamentable",
+            "adherence": "preferred"
+          }
+        }
+      ]
+    },
+    {
+      "id": "choir",
+      "name": "Choir",
+      "clips": [
+        {
+          "id": "choir-clip",
+          "start": 0,
+          "duration": 15360,
+          "notes": [
+            {
+              "id": "choir-a-response",
+              "start": 3000,
+              "duration": 480,
+              "pitch": 64,
+              "velocity": 78
+            },
+            {
+              "id": "choir-c-response",
+              "start": 11600,
+              "duration": 480,
+              "pitch": 65,
+              "velocity": 80
+            }
+          ],
+          "vocalPerformances": [
+            {
+              "id": "vp-choir",
+              "voiceId": "vchoir",
+              "noteIds": [
+                "choir-a-response",
+                "choir-c-response"
+              ],
+              "phonemeEvents": [
+                {
+                  "id": "ph-choir-a",
+                  "unitId": "u-choir-oh",
+                  "noteId": "choir-a-response",
+                  "alphabet": "ipa",
+                  "symbol": "o",
+                  "start": 3000,
+                  "duration": 400
+                },
+                {
+                  "id": "ph-choir-c",
+                  "unitId": "u-choir-yeah",
+                  "noteId": "choir-c-response",
+                  "alphabet": "ipa",
+                  "symbol": "j",
+                  "start": 11600,
+                  "duration": 360
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "directions": [
+        {
+          "id": "free-vchoir",
+          "type": "vocalFreedom",
+          "start": 0,
+          "duration": 3840,
+          "parameters": {
+            "voiceId": "vchoir",
+            "textPolicy": "fixed",
+            "melodyPolicy": "ornamentable",
+            "adherence": "preferred"
+          }
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [
+      {
+        "id": "lead-words"
+      },
+      {
+        "id": "choir-words"
+      }
+    ],
+    "phrases": [
+      {
+        "id": "phrase-lead-a",
+        "documentId": "lead-words",
+        "text": "Stay",
+        "start": 3600,
+        "duration": 720
+      },
+      {
+        "id": "phrase-lead-response",
+        "documentId": "lead-words",
+        "text": "with me"
+      },
+      {
+        "id": "phrase-choir-a",
+        "documentId": "choir-words",
+        "text": "Oh",
+        "start": 3000,
+        "duration": 480
+      },
+      {
+        "id": "phrase-choir-c",
+        "documentId": "choir-words",
+        "text": "yeah",
+        "start": 11600,
+        "duration": 480
+      }
+    ],
+    "units": [
+      {
+        "id": "u-lead-stay",
+        "phraseId": "phrase-lead-a",
+        "text": "Stay"
+      },
+      {
+        "id": "u-lead-with",
+        "phraseId": "phrase-lead-response",
+        "text": "with"
+      },
+      {
+        "id": "u-lead-me",
+        "phraseId": "phrase-lead-response",
+        "text": "me"
+      },
+      {
+        "id": "u-choir-oh",
+        "phraseId": "phrase-choir-a",
+        "text": "Oh"
+      },
+      {
+        "id": "u-choir-yeah",
+        "phraseId": "phrase-choir-c",
+        "text": "yeah"
+      }
+    ],
+    "alignments": [
+      {
+        "id": "align-stay",
+        "unitIds": [
+          "u-lead-stay"
+        ],
+        "noteIds": [
+          "lead-a-hold"
+        ],
+        "voiceId": "vlead"
+      },
+      {
+        "id": "align-with-partial",
+        "unitIds": [
+          "u-lead-with"
+        ],
+        "noteIds": [
+          "lead-omitted-gap",
+          "lead-b-carry"
+        ],
+        "voiceId": "vlead"
+      },
+      {
+        "id": "align-me",
+        "unitIds": [
+          "u-lead-me"
+        ],
+        "noteIds": [
+          "lead-c-at-join"
+        ],
+        "voiceId": "vlead"
+      },
+      {
+        "id": "align-oh",
+        "unitIds": [
+          "u-choir-oh"
+        ],
+        "noteIds": [
+          "choir-a-response"
+        ],
+        "voiceId": "vchoir"
+      },
+      {
+        "id": "align-yeah",
+        "unitIds": [
+          "u-choir-yeah"
+        ],
+        "noteIds": [
+          "choir-c-response"
+        ],
+        "voiceId": "vchoir"
+      }
+    ],
+    "voices": [
+      {
+        "id": "vlead",
+        "trackId": "lead",
+        "documentId": "lead-words",
+        "role": "lead"
+      },
+      {
+        "id": "vchoir",
+        "trackId": "choir",
+        "documentId": "choir-words",
+        "role": "response"
+      }
+    ]
+  },
+  "resources": [],
+  "ensembleInteractions": [
+    {
+      "id": "choir-response",
+      "actorTrackId": "choir",
+      "partnerTrackId": "lead",
+      "actorVoiceId": "vchoir",
+      "partnerVoiceId": "vlead",
+      "relation": "respondTo",
+      "start": 0,
+      "duration": 15360,
+      "adherence": "preferred"
+    }
+  ],
+  "performancePlans": [
+    {
+      "id": "vocal-fixed-form",
+      "mode": "orderedFinite",
+      "defaultRealization": "fixed",
+      "visits": [
+        {
+          "id": "call-response-visit",
+          "ordinal": 0,
+          "sourceSectionIds": [
+            "A",
+            "B",
+            "C"
+          ],
+          "parts": []
+        },
+        {
+          "id": "call-reprise-visit",
+          "ordinal": 1,
+          "sourceSectionIds": [
+            "A"
+          ],
+          "parts": []
+        }
+      ]
+    }
+  ]
+}

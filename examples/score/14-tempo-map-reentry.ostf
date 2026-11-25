@@ -1,0 +1,90 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Plan source-cut with tempo context"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "section-one",
+        "name": "One",
+        "start": 0,
+        "duration": 3840
+      },
+      {
+        "id": "section-two",
+        "name": "Two",
+        "start": 7680,
+        "duration": 3840
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      },
+      {
+        "at": 7680,
+        "bpm": 84
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": [],
+  "performancePlans": [
+    {
+      "id": "plan-source-cut",
+      "mode": "orderedFinite",
+      "defaultRealization": "fixed",
+      "visits": [
+        {
+          "id": "cut-visit",
+          "ordinal": 0,
+          "sourceSectionIds": [
+            "section-one",
+            "section-two"
+          ],
+          "parts": []
+        },
+        {
+          "id": "replay-visit",
+          "ordinal": 1,
+          "sourceSectionIds": [
+            "section-one"
+          ],
+          "parts": []
+        },
+        {
+          "id": "range-selected",
+          "ordinal": 2,
+          "label": "Only the second authored Section",
+          "sourceRange": {
+            "start": 7680,
+            "duration": 3840
+          },
+          "parts": []
+        }
+      ]
+    }
+  ]
+}

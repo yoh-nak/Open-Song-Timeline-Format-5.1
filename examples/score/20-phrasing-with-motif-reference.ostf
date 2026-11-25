@@ -1,0 +1,106 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Phrasing motif link to existing Phrase Library template"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A",
+        "name": "A",
+        "start": 0,
+        "duration": 30720
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "guitar",
+      "name": "Guitar",
+      "clips": [],
+      "role": "lead",
+      "directions": [
+        {
+          "id": "phrasing-1",
+          "type": "phrasing",
+          "start": 0,
+          "duration": 30720,
+          "parameters": {
+            "phraseLengthTicks": {
+              "min": 3840,
+              "max": 7680
+            },
+            "onsetGroupsPerQuarter": {
+              "min": 0.5,
+              "max": 3.0
+            },
+            "development": "motivicVariation",
+            "contour": "arch",
+            "adherence": "preferred",
+            "motifRef": "motif-seed",
+            "energyShape": "rising"
+          },
+          "label": "Solo concept gesture",
+          "instruction": "Retain the motif idea, not a privileged command."
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": [],
+  "phraseLibrary": {
+    "status": "unverified",
+    "dependencies": {
+      "scope": "none"
+    },
+    "templates": [
+      {
+        "id": "motif-seed",
+        "name": "Solo concept only",
+        "duration": 1920,
+        "notes": [
+          {
+            "id": "seed-n1",
+            "start": 0,
+            "duration": 960,
+            "pitch": 69,
+            "velocity": 85
+          },
+          {
+            "id": "seed-n2",
+            "start": 960,
+            "duration": 960,
+            "pitch": 72,
+            "velocity": 90
+          }
+        ]
+      }
+    ],
+    "instances": []
+  }
+}

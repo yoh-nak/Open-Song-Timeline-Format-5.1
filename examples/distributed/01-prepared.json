@@ -1,0 +1,31 @@
+{
+  "profile": "OSTF-Distributed-Session-0.4",
+  "sessionId": "jam-session-51-aaba",
+  "recordType": "snapshot",
+  "stateRevision": 0,
+  "sessionStatus": "prepared",
+  "authorityParticipantId": "host",
+  "participants": [
+    {
+      "kind": "human",
+      "assignedTrackIds": [
+        "sax",
+        "bass",
+        "drums"
+      ],
+      "participantId": "host"
+    },
+    {
+      "kind": "softwareAgent",
+      "assignedTrackIds": [
+        "piano"
+      ],
+      "participantId": "agent"
+    }
+  ],
+  "committedPhrases": [],
+  "documentId": "doc-remote-aaba-43",
+  "revisionId": "r2-51",
+  "performancePlanId": "form",
+  "scoreSha256": "0407da862082b270cf844e3edd59484950df9dee08486269ebe0b7b75b1a2b22"
+}

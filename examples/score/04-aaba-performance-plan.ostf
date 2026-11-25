@@ -1,0 +1,161 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "AABA jazz four choruses"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A1",
+        "name": "A1",
+        "start": 0,
+        "duration": 30720
+      },
+      {
+        "id": "A2",
+        "name": "A2",
+        "start": 30720,
+        "duration": 30720
+      },
+      {
+        "id": "B",
+        "name": "B",
+        "start": 61440,
+        "duration": 30720
+      },
+      {
+        "id": "A3",
+        "name": "A3",
+        "start": 92160,
+        "duration": 30720
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "sax",
+      "name": "Sax",
+      "clips": []
+    },
+    {
+      "id": "piano",
+      "name": "Piano",
+      "clips": []
+    },
+    {
+      "id": "bass",
+      "name": "Bass",
+      "clips": []
+    },
+    {
+      "id": "drums",
+      "name": "Drums",
+      "clips": []
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": [],
+  "performancePlans": [
+    {
+      "id": "form",
+      "name": "Standard AABA",
+      "mode": "orderedFinite",
+      "defaultRealization": "fixed",
+      "visits": [
+        {
+          "id": "head",
+          "ordinal": 0,
+          "sourceSectionIds": [
+            "A1",
+            "A2",
+            "B",
+            "A3"
+          ],
+          "parts": [
+            {
+              "trackId": "sax",
+              "realization": "fixed",
+              "role": "lead"
+            }
+          ]
+        },
+        {
+          "id": "piano-chorus",
+          "ordinal": 1,
+          "sourceSectionIds": [
+            "A1",
+            "A2",
+            "B",
+            "A3"
+          ],
+          "parts": [
+            {
+              "trackId": "piano",
+              "realization": "open",
+              "role": "solo"
+            }
+          ]
+        },
+        {
+          "id": "sax-chorus",
+          "ordinal": 2,
+          "sourceSectionIds": [
+            "A1",
+            "A2",
+            "B",
+            "A3"
+          ],
+          "parts": [
+            {
+              "trackId": "sax",
+              "realization": "open",
+              "role": "solo"
+            }
+          ]
+        },
+        {
+          "id": "head-out",
+          "ordinal": 3,
+          "sourceSectionIds": [
+            "A1",
+            "A2",
+            "B",
+            "A3"
+          ],
+          "parts": [
+            {
+              "trackId": "sax",
+              "realization": "fixed",
+              "role": "lead"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

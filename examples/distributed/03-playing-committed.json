@@ -1,0 +1,64 @@
+{
+  "profile": "OSTF-Distributed-Session-0.4",
+  "sessionId": "jam-session-51-aaba",
+  "recordType": "snapshot",
+  "stateRevision": 2,
+  "sessionStatus": "playing",
+  "authorityParticipantId": "host",
+  "participants": [
+    {
+      "kind": "human",
+      "assignedTrackIds": [
+        "sax",
+        "bass",
+        "drums"
+      ],
+      "participantId": "host"
+    },
+    {
+      "kind": "softwareAgent",
+      "assignedTrackIds": [
+        "piano"
+      ],
+      "participantId": "agent"
+    }
+  ],
+  "committedPhrases": [
+    {
+      "proposalId": "proposal-1",
+      "targetTrackId": "piano",
+      "effectivePerformanceTick": 123840,
+      "phrase": {
+        "durationTicks": 480,
+        "notes": [
+          {
+            "startTick": 0,
+            "durationTicks": 240,
+            "pitch": 60,
+            "velocity": 88
+          }
+        ],
+        "representation": "midi1Notes"
+      },
+      "commitEventId": "e-commit"
+    }
+  ],
+  "position": {
+    "performancePlanId": "form",
+    "visitId": "piano-chorus",
+    "sourceTick": 0,
+    "performanceTick": 122880,
+    "clockDomainId": "session-clock-A",
+    "epochUtc": "2026-11-25T00:00:00Z",
+    "uncertaintyMs": 5,
+    "tempoBpm": 120
+  },
+  "commitmentWindow": {
+    "startPerformanceTick": 122880,
+    "endPerformanceTick": 126720
+  },
+  "documentId": "doc-remote-aaba-43",
+  "revisionId": "r2-51",
+  "performancePlanId": "form",
+  "scoreSha256": "0407da862082b270cf844e3edd59484950df9dee08486269ebe0b7b75b1a2b22"
+}

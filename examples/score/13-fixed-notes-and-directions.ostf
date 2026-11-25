@@ -1,0 +1,98 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Fixed notes with optional phrasing"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A",
+        "name": "A",
+        "start": 0,
+        "duration": 30720
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "lead",
+      "name": "Lead",
+      "clips": [
+        {
+          "id": "lead-clip",
+          "start": 0,
+          "duration": 30720,
+          "notes": [
+            {
+              "id": "lead-note-0",
+              "start": 0,
+              "duration": 960,
+              "pitch": 60,
+              "velocity": 80
+            },
+            {
+              "id": "lead-note-1",
+              "start": 960,
+              "duration": 960,
+              "pitch": 62,
+              "velocity": 80
+            },
+            {
+              "id": "lead-note-2",
+              "start": 1920,
+              "duration": 960,
+              "pitch": 64,
+              "velocity": 80
+            },
+            {
+              "id": "lead-note-3",
+              "start": 2880,
+              "duration": 960,
+              "pitch": 67,
+              "velocity": 80
+            }
+          ]
+        }
+      ],
+      "directions": [
+        {
+          "id": "phrasing-1",
+          "type": "phrasing",
+          "start": 0,
+          "duration": 30720,
+          "parameters": {
+            "development": "motivicVariation",
+            "adherence": "preferred"
+          }
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": []
+}

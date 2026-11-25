@@ -1,0 +1,62 @@
+{
+  "profile": "OSTF-Production-Session",
+  "profileVersion": "0.4.0",
+  "score": {
+    "formatVersion": "5.1.0",
+    "sha256": "0407da862082b270cf844e3edd59484950df9dee08486269ebe0b7b75b1a2b22",
+    "documentId": "doc-remote-aaba-43",
+    "revisionId": "r2-51"
+  },
+  "channels": [
+    {
+      "id": "master",
+      "kind": "master",
+      "audioChannels": 2,
+      "gainDb": 0,
+      "pan": 0,
+      "mute": false,
+      "solo": false,
+      "soloSafe": true,
+      "deviceIds": []
+    },
+    {
+      "id": "audio01",
+      "kind": "audioTrack",
+      "audioChannels": 1,
+      "gainDb": 0,
+      "pan": 0,
+      "mute": false,
+      "solo": false,
+      "soloSafe": false,
+      "deviceIds": [],
+      "outputChannelId": "master"
+    }
+  ],
+  "devices": [],
+  "assets": [
+    {
+      "id": "silentAudio",
+      "purpose": "audioSource",
+      "uri": "assets/audio/silent.wav",
+      "sha256": "c726d333dd159a31423f3480dbb1c5c4a9dfcd30efe1f7e12ade390dc92e8908",
+      "mediaType": "audio/wav",
+      "sampleRateHz": 8000,
+      "frameCount": 800,
+      "audioChannels": 1
+    }
+  ],
+  "audioRegions": [
+    {
+      "id": "silentRegion",
+      "channelId": "audio01",
+      "sourceAssetId": "silentAudio",
+      "startTick": 0,
+      "durationTicks": 192,
+      "sourceStartFrame": 0,
+      "sourceFrameCount": 800,
+      "playbackMode": "native",
+      "gainDb": 0,
+      "mute": false
+    }
+  ]
+}

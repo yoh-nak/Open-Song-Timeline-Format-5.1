@@ -1,0 +1,739 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 480,
+  "song": {
+    "title": "Five live Comp selection policies"
+  },
+  "timeline": {
+    "duration": 1920,
+    "sections": [
+      {
+        "id": "chorus",
+        "name": "Chorus",
+        "start": 0,
+        "duration": 1920
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "live-fixed",
+      "name": "fixed",
+      "clips": [
+        {
+          "id": "live-fixed-src-a",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-fixed-na",
+              "start": 0,
+              "duration": 960,
+              "pitch": 48,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-fixed-src-b",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-fixed-nb",
+              "start": 480,
+              "duration": 960,
+              "pitch": 50,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-fixed-out-a",
+          "start": 0,
+          "duration": 1920,
+          "enabled": true,
+          "notes": [
+            {
+              "id": "live-fixed-oa",
+              "start": 0,
+              "duration": 960,
+              "pitch": 48,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-fixed-out-b",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-fixed-ob",
+              "start": 480,
+              "duration": 960,
+              "pitch": 50,
+              "velocity": 95
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live-manual",
+      "name": "manual",
+      "clips": [
+        {
+          "id": "live-manual-src-a",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-manual-na",
+              "start": 0,
+              "duration": 960,
+              "pitch": 51,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-manual-src-b",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-manual-nb",
+              "start": 480,
+              "duration": 960,
+              "pitch": 53,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-manual-out-a",
+          "start": 0,
+          "duration": 1920,
+          "enabled": true,
+          "notes": [
+            {
+              "id": "live-manual-oa",
+              "start": 0,
+              "duration": 960,
+              "pitch": 51,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-manual-out-b",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-manual-ob",
+              "start": 480,
+              "duration": 960,
+              "pitch": 53,
+              "velocity": 95
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live-cycle",
+      "name": "cycle",
+      "clips": [
+        {
+          "id": "live-cycle-src-a",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-cycle-na",
+              "start": 0,
+              "duration": 960,
+              "pitch": 54,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-cycle-src-b",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-cycle-nb",
+              "start": 480,
+              "duration": 960,
+              "pitch": 56,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-cycle-out-a",
+          "start": 0,
+          "duration": 1920,
+          "enabled": true,
+          "notes": [
+            {
+              "id": "live-cycle-oa",
+              "start": 0,
+              "duration": 960,
+              "pitch": 54,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-cycle-out-b",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-cycle-ob",
+              "start": 480,
+              "duration": 960,
+              "pitch": 56,
+              "velocity": 95
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live-random",
+      "name": "random",
+      "clips": [
+        {
+          "id": "live-random-src-a",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-random-na",
+              "start": 0,
+              "duration": 960,
+              "pitch": 57,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-random-src-b",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-random-nb",
+              "start": 480,
+              "duration": 960,
+              "pitch": 59,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-random-out-a",
+          "start": 0,
+          "duration": 1920,
+          "enabled": true,
+          "notes": [
+            {
+              "id": "live-random-oa",
+              "start": 0,
+              "duration": 960,
+              "pitch": 57,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-random-out-b",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-random-ob",
+              "start": 480,
+              "duration": 960,
+              "pitch": 59,
+              "velocity": 95
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "live-weighted",
+      "name": "weighted",
+      "clips": [
+        {
+          "id": "live-weighted-src-a",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-weighted-na",
+              "start": 0,
+              "duration": 960,
+              "pitch": 60,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-weighted-src-b",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-weighted-nb",
+              "start": 480,
+              "duration": 960,
+              "pitch": 62,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-weighted-out-a",
+          "start": 0,
+          "duration": 1920,
+          "enabled": true,
+          "notes": [
+            {
+              "id": "live-weighted-oa",
+              "start": 0,
+              "duration": 960,
+              "pitch": 60,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "live-weighted-out-b",
+          "start": 0,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "live-weighted-ob",
+              "start": 480,
+              "duration": 960,
+              "pitch": 62,
+              "velocity": 95
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": [],
+  "takeGroups": [
+    {
+      "id": "live-fixed-group",
+      "trackId": "live-fixed",
+      "sectionId": "chorus",
+      "startTick": 0,
+      "durationTicks": 1920,
+      "takes": [
+        {
+          "id": "ta",
+          "kind": "take",
+          "clipIds": [
+            "live-fixed-src-a"
+          ]
+        },
+        {
+          "id": "tb",
+          "kind": "alternative",
+          "clipIds": [
+            "live-fixed-src-b"
+          ],
+          "parentTakeId": "ta",
+          "origin": {
+            "kind": "derived"
+          }
+        }
+      ],
+      "comps": [
+        {
+          "id": "A",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "ra",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "ta",
+              "clipId": "live-fixed-src-a"
+            }
+          ],
+          "outputClipIds": [
+            "live-fixed-out-a"
+          ]
+        },
+        {
+          "id": "B",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "rb",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "tb",
+              "clipId": "live-fixed-src-b"
+            }
+          ],
+          "outputClipIds": [
+            "live-fixed-out-b"
+          ]
+        }
+      ],
+      "activeCompId": "A",
+      "liveSelection": {
+        "mode": "fixed"
+      }
+    },
+    {
+      "id": "live-manual-group",
+      "trackId": "live-manual",
+      "sectionId": "chorus",
+      "startTick": 0,
+      "durationTicks": 1920,
+      "takes": [
+        {
+          "id": "ta",
+          "kind": "take",
+          "clipIds": [
+            "live-manual-src-a"
+          ]
+        },
+        {
+          "id": "tb",
+          "kind": "alternative",
+          "clipIds": [
+            "live-manual-src-b"
+          ],
+          "parentTakeId": "ta",
+          "origin": {
+            "kind": "derived"
+          }
+        }
+      ],
+      "comps": [
+        {
+          "id": "A",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "ra",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "ta",
+              "clipId": "live-manual-src-a"
+            }
+          ],
+          "outputClipIds": [
+            "live-manual-out-a"
+          ]
+        },
+        {
+          "id": "B",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "rb",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "tb",
+              "clipId": "live-manual-src-b"
+            }
+          ],
+          "outputClipIds": [
+            "live-manual-out-b"
+          ]
+        }
+      ],
+      "activeCompId": "A",
+      "liveSelection": {
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "live-cycle-group",
+      "trackId": "live-cycle",
+      "sectionId": "chorus",
+      "startTick": 0,
+      "durationTicks": 1920,
+      "takes": [
+        {
+          "id": "ta",
+          "kind": "take",
+          "clipIds": [
+            "live-cycle-src-a"
+          ]
+        },
+        {
+          "id": "tb",
+          "kind": "alternative",
+          "clipIds": [
+            "live-cycle-src-b"
+          ],
+          "parentTakeId": "ta",
+          "origin": {
+            "kind": "derived"
+          }
+        }
+      ],
+      "comps": [
+        {
+          "id": "A",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "ra",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "ta",
+              "clipId": "live-cycle-src-a"
+            }
+          ],
+          "outputClipIds": [
+            "live-cycle-out-a"
+          ]
+        },
+        {
+          "id": "B",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "rb",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "tb",
+              "clipId": "live-cycle-src-b"
+            }
+          ],
+          "outputClipIds": [
+            "live-cycle-out-b"
+          ]
+        }
+      ],
+      "activeCompId": "A",
+      "liveSelection": {
+        "mode": "cycle",
+        "candidates": [
+          {
+            "compId": "A"
+          },
+          {
+            "compId": "B"
+          }
+        ]
+      }
+    },
+    {
+      "id": "live-random-group",
+      "trackId": "live-random",
+      "sectionId": "chorus",
+      "startTick": 0,
+      "durationTicks": 1920,
+      "takes": [
+        {
+          "id": "ta",
+          "kind": "take",
+          "clipIds": [
+            "live-random-src-a"
+          ]
+        },
+        {
+          "id": "tb",
+          "kind": "alternative",
+          "clipIds": [
+            "live-random-src-b"
+          ],
+          "parentTakeId": "ta",
+          "origin": {
+            "kind": "derived"
+          }
+        }
+      ],
+      "comps": [
+        {
+          "id": "A",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "ra",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "ta",
+              "clipId": "live-random-src-a"
+            }
+          ],
+          "outputClipIds": [
+            "live-random-out-a"
+          ]
+        },
+        {
+          "id": "B",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "rb",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "tb",
+              "clipId": "live-random-src-b"
+            }
+          ],
+          "outputClipIds": [
+            "live-random-out-b"
+          ]
+        }
+      ],
+      "activeCompId": "A",
+      "liveSelection": {
+        "mode": "random",
+        "candidates": [
+          {
+            "compId": "A"
+          },
+          {
+            "compId": "B"
+          }
+        ]
+      }
+    },
+    {
+      "id": "live-weighted-group",
+      "trackId": "live-weighted",
+      "sectionId": "chorus",
+      "startTick": 0,
+      "durationTicks": 1920,
+      "takes": [
+        {
+          "id": "ta",
+          "kind": "take",
+          "clipIds": [
+            "live-weighted-src-a"
+          ]
+        },
+        {
+          "id": "tb",
+          "kind": "alternative",
+          "clipIds": [
+            "live-weighted-src-b"
+          ],
+          "parentTakeId": "ta",
+          "origin": {
+            "kind": "derived"
+          }
+        }
+      ],
+      "comps": [
+        {
+          "id": "A",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "ra",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "ta",
+              "clipId": "live-weighted-src-a"
+            }
+          ],
+          "outputClipIds": [
+            "live-weighted-out-a"
+          ]
+        },
+        {
+          "id": "B",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "rb",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "tb",
+              "clipId": "live-weighted-src-b"
+            }
+          ],
+          "outputClipIds": [
+            "live-weighted-out-b"
+          ]
+        }
+      ],
+      "activeCompId": "A",
+      "liveSelection": {
+        "mode": "weighted",
+        "candidates": [
+          {
+            "compId": "A",
+            "weight": 0
+          },
+          {
+            "compId": "B",
+            "weight": 1
+          }
+        ]
+      }
+    }
+  ]
+}

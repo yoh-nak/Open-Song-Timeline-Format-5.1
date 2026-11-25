@@ -1,0 +1,113 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Two explicit lyric voices responding within one shared Track"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A",
+        "name": "A",
+        "start": 0,
+        "duration": 30720
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "vocal-group",
+      "name": "One grouped vocal track",
+      "clips": [],
+      "directions": [
+        {
+          "id": "vocal-lead-free",
+          "type": "vocalFreedom",
+          "start": 0,
+          "duration": 3840,
+          "parameters": {
+            "voiceId": "vlead",
+            "textPolicy": "fixed",
+            "melodyPolicy": "ornamentable",
+            "adherence": "preferred"
+          },
+          "label": "Lead vocal flexibility",
+          "instruction": "Sing with gentle ornaments; text remains fixed."
+        },
+        {
+          "id": "vocal-response-free",
+          "type": "vocalFreedom",
+          "start": 0,
+          "duration": 3840,
+          "parameters": {
+            "voiceId": "vchoir",
+            "textPolicy": "open",
+            "melodyPolicy": "open",
+            "vocalizationKind": "nonLexical",
+            "adherence": "preferred"
+          }
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [
+      {
+        "id": "lead-words"
+      },
+      {
+        "id": "choir-words"
+      }
+    ],
+    "phrases": [],
+    "units": [],
+    "alignments": [],
+    "voices": [
+      {
+        "id": "vlead",
+        "trackId": "vocal-group",
+        "documentId": "lead-words",
+        "role": "lead"
+      },
+      {
+        "id": "vchoir",
+        "trackId": "vocal-group",
+        "documentId": "choir-words",
+        "role": "response"
+      }
+    ]
+  },
+  "resources": [],
+  "ensembleInteractions": [
+    {
+      "id": "choir-response",
+      "actorTrackId": "vocal-group",
+      "partnerTrackId": "vocal-group",
+      "actorVoiceId": "vchoir",
+      "partnerVoiceId": "vlead",
+      "relation": "respondTo",
+      "start": 0,
+      "duration": 30720,
+      "adherence": "preferred"
+    }
+  ]
+}

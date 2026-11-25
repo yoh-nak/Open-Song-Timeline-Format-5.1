@@ -1,0 +1,832 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yoh-nak.github.io/ostf/schema/ostf-distributed-session-0.2.schema.json",
+  "title": "OSTF Distributed Session Profile 0.2 — Draft 0.9 (source-pin amendment)",
+  "description": "Separate transport-neutral collaboration data. Draft 0.9 requires an explicit finite performancePlanId and SHA-256 score-byte pin in every Snapshot/Event; changed source bytes/revisions require a new Session. No robot actuation authority is created.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/snapshot"
+    },
+    {
+      "$ref": "#/$defs/event"
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "participant": {
+      "type": "object",
+      "properties": {
+        "participantId": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "human",
+            "softwareAgent",
+            "physicalRobot"
+          ]
+        },
+        "assignedTrackIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "uniqueItems": true
+        },
+        "supportedFeatures": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1
+          },
+          "uniqueItems": true
+        },
+        "capabilities": {
+          "type": "object",
+          "description": "Untrusted advisory data, not robot actuator authorization",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "participantId",
+        "kind",
+        "assignedTrackIds"
+      ],
+      "additionalProperties": false
+    },
+    "position": {
+      "type": "object",
+      "properties": {
+        "performancePlanId": {
+          "$ref": "#/$defs/id"
+        },
+        "visitId": {
+          "$ref": "#/$defs/id"
+        },
+        "sourceTick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "performanceTick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "clockDomainId": {
+          "$ref": "#/$defs/id"
+        },
+        "epochUtc": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "uncertaintyMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "tempoBpm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        }
+      },
+      "required": [
+        "performancePlanId",
+        "visitId",
+        "sourceTick",
+        "performanceTick",
+        "clockDomainId",
+        "epochUtc",
+        "uncertaintyMs"
+      ],
+      "additionalProperties": false,
+      "description": "epochUtc denotes the clock-domain estimate for the explicitly stated performanceTick (at the sourceTick). Clock synchronization algorithm is out of scope."
+    },
+    "note": {
+      "type": "object",
+      "properties": {
+        "startTick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "durationTicks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "pitch": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 127
+        },
+        "velocity": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 127
+        }
+      },
+      "required": [
+        "startTick",
+        "durationTicks",
+        "pitch",
+        "velocity"
+      ],
+      "additionalProperties": false,
+      "description": "MIDI-like note within a proposed session phrase, not a new authoritative OSTF Core Note."
+    },
+    "phrase": {
+      "type": "object",
+      "properties": {
+        "representation": {
+          "const": "midi1Notes"
+        },
+        "durationTicks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "notes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/note"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "representation",
+        "durationTicks",
+        "notes"
+      ],
+      "additionalProperties": false,
+      "description": "A portable minimal pitched-note session phrase. No lyrics, MPE, instrument actuation or audio realization is implied. Notes are relative to phrase start/effectivePerformanceTick."
+    },
+    "committedPhrase": {
+      "type": "object",
+      "properties": {
+        "commitEventId": {
+          "$ref": "#/$defs/id"
+        },
+        "proposalId": {
+          "$ref": "#/$defs/id"
+        },
+        "targetTrackId": {
+          "$ref": "#/$defs/id"
+        },
+        "effectivePerformanceTick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "phrase": {
+          "$ref": "#/$defs/phrase"
+        }
+      },
+      "required": [
+        "commitEventId",
+        "proposalId",
+        "targetTrackId",
+        "effectivePerformanceTick",
+        "phrase"
+      ],
+      "additionalProperties": false
+    },
+    "snapshot": {
+      "type": "object",
+      "properties": {
+        "profile": {
+          "const": "OSTF-Distributed-Session-0.2"
+        },
+        "recordType": {
+          "const": "snapshot"
+        },
+        "sessionId": {
+          "$ref": "#/$defs/id"
+        },
+        "documentId": {
+          "$ref": "#/$defs/id"
+        },
+        "revisionId": {
+          "$ref": "#/$defs/id"
+        },
+        "performancePlanId": {
+          "$ref": "#/$defs/id",
+          "description": "Required pinned finite 4.3 Core performancePlans[].id, also in prepared or stopped Snapshots; positions must match this ID."
+        },
+        "scoreSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 lowercase hex over the exact UTF-8 OSTF source document bytes after HTTP Content-Encoding removal and before parsing; byte identity pin only, not authentication or semantic normalization."
+        },
+        "sessionStatus": {
+          "enum": [
+            "prepared",
+            "playing",
+            "stopped"
+          ],
+          "description": "Authoritative session lifecycle state; not participant availability or network connection status."
+        },
+        "stateRevision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "authorityParticipantId": {
+          "$ref": "#/$defs/id"
+        },
+        "participants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/participant"
+          },
+          "minItems": 1
+        },
+        "position": {
+          "$ref": "#/$defs/position"
+        },
+        "committedPhrases": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/committedPhrase"
+          },
+          "description": "Self-contained accepted phrases for late joiners; only active/future material is required for live join, full archive required for full replay claims."
+        },
+        "commitmentWindow": {
+          "$ref": "#/$defs/commitmentWindow",
+          "description": "Optional truthful late-join phrase completeness assertion. Only allowed in playing Snapshots with position; absent means no completeness claim, not an empty session."
+        }
+      },
+      "required": [
+        "profile",
+        "recordType",
+        "sessionId",
+        "documentId",
+        "revisionId",
+        "performancePlanId",
+        "scoreSha256",
+        "sessionStatus",
+        "stateRevision",
+        "authorityParticipantId",
+        "participants"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "sessionStatus": {
+                "const": "playing"
+              }
+            },
+            "required": [
+              "sessionStatus"
+            ]
+          },
+          "then": {
+            "required": [
+              "position"
+            ]
+          }
+        },
+        {
+          "if": {
+            "required": [
+              "commitmentWindow"
+            ]
+          },
+          "then": {
+            "required": [
+              "position",
+              "committedPhrases"
+            ],
+            "properties": {
+              "sessionStatus": {
+                "const": "playing"
+              }
+            }
+          }
+        }
+      ],
+      "description": "A playing Session Snapshot must have a pinned Plan/Visit clock position. Prepared/stopped may omit position. Only the current authority can certify an authoritative Snapshot. Draft 0.5: commitmentWindow asserts complete accepted phrase coverage as of stateRevision; absence makes no completeness guarantee. Draft 0.9 requires a pinned Plan and exact score-byte digest on every 0.2 Snapshot/Event, including positionless prepared snapshots. Draft 0.12: a Snapshot has at least one Participant so the required authority identity can resolve."
+    },
+    "phraseProposedPayload": {
+      "type": "object",
+      "properties": {
+        "proposalId": {
+          "$ref": "#/$defs/id"
+        },
+        "targetTrackId": {
+          "$ref": "#/$defs/id"
+        },
+        "phrase": {
+          "$ref": "#/$defs/phrase"
+        }
+      },
+      "required": [
+        "proposalId",
+        "targetTrackId",
+        "phrase"
+      ],
+      "additionalProperties": false
+    },
+    "phraseCommittedPayload": {
+      "type": "object",
+      "properties": {
+        "proposalId": {
+          "$ref": "#/$defs/id"
+        },
+        "targetTrackId": {
+          "$ref": "#/$defs/id"
+        },
+        "phrase": {
+          "$ref": "#/$defs/phrase"
+        }
+      },
+      "required": [
+        "proposalId",
+        "targetTrackId",
+        "phrase"
+      ],
+      "additionalProperties": false
+    },
+    "turnRequestedPayload": {
+      "type": "object",
+      "properties": {
+        "targetTrackId": {
+          "$ref": "#/$defs/id"
+        },
+        "requestedRole": {
+          "type": "string",
+          "minLength": 1
+        },
+        "requestedVisitId": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "targetTrackId",
+        "requestedRole"
+      ],
+      "additionalProperties": false
+    },
+    "cueIssuedPayload": {
+      "type": "object",
+      "properties": {
+        "cueId": {
+          "$ref": "#/$defs/id"
+        },
+        "targetVisitId": {
+          "$ref": "#/$defs/id"
+        }
+      },
+      "required": [
+        "cueId"
+      ],
+      "additionalProperties": false
+    },
+    "performanceObservedPayload": {
+      "type": "object",
+      "properties": {
+        "observedParticipantId": {
+          "$ref": "#/$defs/id"
+        },
+        "sourceTrackId": {
+          "$ref": "#/$defs/id"
+        },
+        "confidence": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "features": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "required": [
+        "observedParticipantId",
+        "sourceTrackId",
+        "confidence"
+      ],
+      "additionalProperties": false
+    },
+    "participantStatusPayload": {
+      "type": "object",
+      "properties": {
+        "participantId": {
+          "$ref": "#/$defs/id"
+        },
+        "availability": {
+          "enum": [
+            "ready",
+            "busy",
+            "disconnected"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "participantId",
+        "availability"
+      ],
+      "additionalProperties": false
+    },
+    "sessionStateChangedPayload": {
+      "type": "object",
+      "properties": {
+        "changeKind": {
+          "enum": [
+            "sessionStarted",
+            "visitChanged",
+            "assignmentChanged",
+            "sessionStopped"
+          ]
+        },
+        "targetVisitId": {
+          "$ref": "#/$defs/id"
+        },
+        "participantId": {
+          "$ref": "#/$defs/id"
+        },
+        "assignedTrackIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "uniqueItems": true
+        },
+        "position": {
+          "$ref": "#/$defs/position",
+          "description": "Authoritative Plan/Visit/source/performance Tick and clock-domain/UTC anchor. Required for sessionStarted and visitChanged; position.performanceTick MUST equal event effectivePerformanceTick. For visitChanged, position.visitId MUST equal targetVisitId at that Visit start."
+        }
+      },
+      "required": [
+        "changeKind"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "changeKind": {
+                "const": "sessionStarted"
+              }
+            },
+            "required": [
+              "changeKind"
+            ]
+          },
+          "then": {
+            "required": [
+              "position"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "targetVisitId"
+                  ]
+                },
+                {
+                  "required": [
+                    "participantId"
+                  ]
+                },
+                {
+                  "required": [
+                    "assignedTrackIds"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "changeKind": {
+                "const": "visitChanged"
+              }
+            },
+            "required": [
+              "changeKind"
+            ]
+          },
+          "then": {
+            "required": [
+              "targetVisitId",
+              "position"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "participantId"
+                  ]
+                },
+                {
+                  "required": [
+                    "assignedTrackIds"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "changeKind": {
+                "const": "assignmentChanged"
+              }
+            },
+            "required": [
+              "changeKind"
+            ]
+          },
+          "then": {
+            "required": [
+              "participantId",
+              "assignedTrackIds"
+            ],
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "targetVisitId"
+                  ]
+                },
+                {
+                  "required": [
+                    "position"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "changeKind": {
+                "const": "sessionStopped"
+              }
+            },
+            "required": [
+              "changeKind"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "targetVisitId"
+                  ]
+                },
+                {
+                  "required": [
+                    "participantId"
+                  ]
+                },
+                {
+                  "required": [
+                    "assignedTrackIds"
+                  ]
+                },
+                {
+                  "required": [
+                    "position"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Authoritative sessionStarted and visitChanged both supply an explicit musical/UTC Position anchor. assignmentChanged changes assignments only and MUST NOT carry position or targetVisitId; sessionStopped is immediate."
+    },
+    "event": {
+      "type": "object",
+      "properties": {
+        "profile": {
+          "const": "OSTF-Distributed-Session-0.2"
+        },
+        "recordType": {
+          "const": "event"
+        },
+        "eventId": {
+          "$ref": "#/$defs/id"
+        },
+        "sessionId": {
+          "$ref": "#/$defs/id"
+        },
+        "documentId": {
+          "$ref": "#/$defs/id"
+        },
+        "revisionId": {
+          "$ref": "#/$defs/id"
+        },
+        "performancePlanId": {
+          "$ref": "#/$defs/id",
+          "description": "Required pinned finite 4.3 Core performancePlans[].id, also in prepared or stopped Snapshots; positions must match this ID."
+        },
+        "scoreSha256": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$",
+          "description": "SHA-256 lowercase hex over the exact UTF-8 OSTF source document bytes after HTTP Content-Encoding removal and before parsing; byte identity pin only, not authentication or semantic normalization."
+        },
+        "baseStateRevision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "resultStateRevision": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "issuerParticipantId": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "phraseProposed",
+            "phraseCommitted",
+            "turnRequested",
+            "cueIssued",
+            "performanceObserved",
+            "participantStatus",
+            "sessionStateChanged"
+          ]
+        },
+        "effectivePerformanceTick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "payload": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "profile",
+        "recordType",
+        "eventId",
+        "sessionId",
+        "documentId",
+        "revisionId",
+        "performancePlanId",
+        "scoreSha256",
+        "baseStateRevision",
+        "issuerParticipantId",
+        "kind",
+        "effectivePerformanceTick",
+        "payload"
+      ],
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "properties": {
+            "kind": {
+              "const": "phraseProposed"
+            },
+            "payload": {
+              "$ref": "#/$defs/phraseProposedPayload"
+            }
+          },
+          "required": [
+            "kind",
+            "payload"
+          ],
+          "not": {
+            "required": [
+              "resultStateRevision"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "phraseCommitted"
+            },
+            "payload": {
+              "$ref": "#/$defs/phraseCommittedPayload"
+            }
+          },
+          "required": [
+            "kind",
+            "payload",
+            "resultStateRevision"
+          ]
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "turnRequested"
+            },
+            "payload": {
+              "$ref": "#/$defs/turnRequestedPayload"
+            }
+          },
+          "required": [
+            "kind",
+            "payload"
+          ],
+          "not": {
+            "required": [
+              "resultStateRevision"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "cueIssued"
+            },
+            "payload": {
+              "$ref": "#/$defs/cueIssuedPayload"
+            }
+          },
+          "required": [
+            "kind",
+            "payload"
+          ],
+          "not": {
+            "required": [
+              "resultStateRevision"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "performanceObserved"
+            },
+            "payload": {
+              "$ref": "#/$defs/performanceObservedPayload"
+            }
+          },
+          "required": [
+            "kind",
+            "payload"
+          ],
+          "not": {
+            "required": [
+              "resultStateRevision"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "participantStatus"
+            },
+            "payload": {
+              "$ref": "#/$defs/participantStatusPayload"
+            }
+          },
+          "required": [
+            "kind",
+            "payload"
+          ],
+          "not": {
+            "required": [
+              "resultStateRevision"
+            ]
+          }
+        },
+        {
+          "properties": {
+            "kind": {
+              "const": "sessionStateChanged"
+            },
+            "payload": {
+              "$ref": "#/$defs/sessionStateChangedPayload"
+            }
+          },
+          "required": [
+            "kind",
+            "payload",
+            "resultStateRevision"
+          ]
+        }
+      ],
+      "description": "Authorized state changes increment base revision exactly once. Proposed Draft 0.10: sessionStarted and visitChanged carry clock-anchored Position; event effectivePerformanceTick equals Position performanceTick for each. See SESSION_STATE_MACHINE.md; semantic cross-checks require the pinned score."
+    },
+    "commitmentWindow": {
+      "type": "object",
+      "properties": {
+        "startPerformanceTick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "endPerformanceTick": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "required": [
+        "startPerformanceTick",
+        "endPerformanceTick"
+      ],
+      "additionalProperties": false,
+      "description": "Optional assertion that all accepted committed phrases intersecting half-open [startPerformanceTick, endPerformanceTick) are listed in committedPhrases for the Snapshot stateRevision. Semantic validator MUST check start < end and intersection/completeness against authority log."
+    }
+  }
+}

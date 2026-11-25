@@ -1,0 +1,244 @@
+{
+  "profile": "OSTF-Production-Session",
+  "profileVersion": "0.4.0",
+  "score": {
+    "formatVersion": "5.1.0",
+    "sha256": "0407da862082b270cf844e3edd59484950df9dee08486269ebe0b7b75b1a2b22",
+    "documentId": "doc-remote-aaba-43",
+    "revisionId": "r2-51"
+  },
+  "channels": [
+    {
+      "id": "master",
+      "kind": "master",
+      "audioChannels": 2,
+      "gainDb": 0,
+      "pan": 0,
+      "mute": false,
+      "solo": false,
+      "soloSafe": true,
+      "deviceIds": []
+    },
+    {
+      "id": "audio01",
+      "kind": "audioTrack",
+      "audioChannels": 1,
+      "gainDb": 0,
+      "pan": 0,
+      "mute": false,
+      "solo": false,
+      "soloSafe": false,
+      "deviceIds": [
+        "fx-demo"
+      ],
+      "outputChannelId": "master",
+      "sends": [
+        {
+          "id": "to-fxbus",
+          "targetChannelId": "fxbus",
+          "gainDb": -6,
+          "preFader": false,
+          "enabled": true
+        }
+      ]
+    },
+    {
+      "id": "fxbus",
+      "kind": "bus",
+      "audioChannels": 2,
+      "gainDb": -3,
+      "pan": 0,
+      "mute": false,
+      "solo": false,
+      "soloSafe": false,
+      "deviceIds": [],
+      "outputChannelId": "master",
+      "sends": []
+    }
+  ],
+  "devices": [
+    {
+      "id": "fx-demo",
+      "role": "effect",
+      "plugin": {
+        "format": "builtin",
+        "pluginId": "org.ostf.demo.effect",
+        "name": "OSTF inert demonstration device"
+      },
+      "enabled": true,
+      "bypass": false
+    }
+  ],
+  "assets": [
+    {
+      "id": "silentAudio",
+      "purpose": "audioSource",
+      "uri": "assets/audio/silent.wav",
+      "sha256": "c726d333dd159a31423f3480dbb1c5c4a9dfcd30efe1f7e12ade390dc92e8908",
+      "mediaType": "audio/wav",
+      "sampleRateHz": 8000,
+      "frameCount": 800,
+      "audioChannels": 1
+    }
+  ],
+  "audioRegions": [
+    {
+      "id": "silentRegion",
+      "channelId": "audio01",
+      "sourceAssetId": "silentAudio",
+      "startTick": 0,
+      "durationTicks": 192,
+      "sourceStartFrame": 0,
+      "sourceFrameCount": 800,
+      "playbackMode": "native",
+      "gainDb": 0,
+      "mute": false
+    }
+  ],
+  "automation": [
+    {
+      "id": "auto-01",
+      "target": {
+        "kind": "channel",
+        "channelId": "audio01",
+        "parameter": "mute"
+      },
+      "valueType": "boolean",
+      "interpolation": "step",
+      "points": [
+        {
+          "atTick": 0,
+          "value": false
+        },
+        {
+          "atTick": 240,
+          "value": true
+        },
+        {
+          "atTick": 480,
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "auto-02",
+      "target": {
+        "kind": "send",
+        "sendId": "to-fxbus",
+        "parameter": "enabled"
+      },
+      "valueType": "boolean",
+      "interpolation": "step",
+      "points": [
+        {
+          "atTick": 0,
+          "value": true
+        },
+        {
+          "atTick": 720,
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "auto-03",
+      "target": {
+        "kind": "audioRegion",
+        "audioRegionId": "silentRegion",
+        "parameter": "mute"
+      },
+      "valueType": "boolean",
+      "interpolation": "step",
+      "points": [
+        {
+          "atTick": 0,
+          "value": false
+        },
+        {
+          "atTick": 960,
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "auto-04",
+      "target": {
+        "kind": "deviceControl",
+        "deviceId": "fx-demo",
+        "parameter": "enabled"
+      },
+      "valueType": "boolean",
+      "interpolation": "step",
+      "points": [
+        {
+          "atTick": 0,
+          "value": true
+        },
+        {
+          "atTick": 1440,
+          "value": false
+        }
+      ]
+    },
+    {
+      "id": "auto-05",
+      "target": {
+        "kind": "deviceControl",
+        "deviceId": "fx-demo",
+        "parameter": "bypass"
+      },
+      "valueType": "boolean",
+      "interpolation": "step",
+      "points": [
+        {
+          "atTick": 0,
+          "value": false
+        },
+        {
+          "atTick": 960,
+          "value": true
+        }
+      ]
+    },
+    {
+      "id": "auto-06",
+      "target": {
+        "kind": "device",
+        "deviceId": "fx-demo",
+        "parameterId": "wet"
+      },
+      "valueType": "number",
+      "interpolation": "linear",
+      "points": [
+        {
+          "atTick": 0,
+          "value": 0.1
+        },
+        {
+          "atTick": 960,
+          "value": 0.8
+        }
+      ]
+    },
+    {
+      "id": "auto-07",
+      "target": {
+        "kind": "channel",
+        "channelId": "audio01",
+        "parameter": "gainDb"
+      },
+      "valueType": "number",
+      "interpolation": "linear",
+      "points": [
+        {
+          "atTick": 0,
+          "value": -12
+        },
+        {
+          "atTick": 960,
+          "value": 0
+        }
+      ]
+    }
+  ]
+}

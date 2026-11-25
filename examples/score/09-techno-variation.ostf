@@ -1,0 +1,67 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Techno variation"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A",
+        "name": "A",
+        "start": 0,
+        "duration": 30720
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "synth",
+      "name": "Synth",
+      "clips": [],
+      "directions": [
+        {
+          "id": "phrasing-1",
+          "type": "phrasing",
+          "start": 0,
+          "duration": 30720,
+          "parameters": {
+            "onsetGroupsPerQuarter": {
+              "min": 1,
+              "max": 4
+            },
+            "development": "repetition",
+            "energyShape": "rising",
+            "adherence": "preferred"
+          }
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": []
+}

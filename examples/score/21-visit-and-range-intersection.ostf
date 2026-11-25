@@ -1,0 +1,121 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Scoped interaction on a disjoint source subset"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A",
+        "name": "A",
+        "start": 0,
+        "duration": 30720
+      },
+      {
+        "id": "B",
+        "name": "B",
+        "start": 30720,
+        "duration": 30720
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "piano",
+      "name": "piano",
+      "clips": []
+    },
+    {
+      "id": "sax",
+      "name": "sax",
+      "clips": []
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": [],
+  "performancePlans": [
+    {
+      "id": "plan1",
+      "mode": "orderedFinite",
+      "defaultRealization": "fixed",
+      "visits": [
+        {
+          "id": "visit-head",
+          "ordinal": 0,
+          "sourceSectionIds": [
+            "A",
+            "B"
+          ],
+          "parts": []
+        },
+        {
+          "id": "visit-solo",
+          "ordinal": 1,
+          "sourceSectionIds": [
+            "A",
+            "B"
+          ],
+          "parts": [
+            {
+              "trackId": "sax",
+              "realization": "open",
+              "role": "solo"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "ensembleInteractions": [
+    {
+      "id": "visit-interaction",
+      "actorTrackId": "piano",
+      "partnerTrackId": "sax",
+      "relation": "respondTo",
+      "scope": {
+        "performancePlanId": "plan1",
+        "visitId": "visit-solo"
+      },
+      "adherence": "preferred",
+      "start": 30720,
+      "duration": 30720,
+      "responseWindowTicks": 960
+    },
+    {
+      "id": "whole-visit-response",
+      "actorTrackId": "piano",
+      "partnerTrackId": "sax",
+      "relation": "respondTo",
+      "scope": {
+        "performancePlanId": "plan1",
+        "visitId": "visit-head"
+      },
+      "adherence": "preferred"
+    }
+  ]
+}

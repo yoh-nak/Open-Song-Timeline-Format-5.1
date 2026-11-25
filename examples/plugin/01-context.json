@@ -1,0 +1,247 @@
+{
+  "protocol": "OSTF-Plugin-Context",
+  "protocolVersion": "1.1.0",
+  "messageId": "take-context",
+  "operation": "context",
+  "score": {
+    "format": "OSTF",
+    "version": "5.1.0",
+    "sha256": "e48940cd6a3ebf90603a4717b619f9017cd81e53cd7bc79a4d956661a8337312",
+    "documentId": "take-comp-demo",
+    "revisionId": "take-r1"
+  },
+  "scope": {
+    "startTick": 0,
+    "durationTicks": 3840,
+    "trackIds": [
+      "guitar"
+    ],
+    "sectionIds": [
+      "chorus"
+    ]
+  },
+  "payload": {
+    "partial": true,
+    "data": {
+      "takeGroups": [
+        {
+          "id": "g1",
+          "trackId": "guitar",
+          "sectionId": "chorus",
+          "startTick": 0,
+          "durationTicks": 3840,
+          "takes": [
+            {
+              "id": "t1",
+              "kind": "take",
+              "clipIds": [
+                "source1"
+              ],
+              "laneOrder": 0,
+              "origin": {
+                "kind": "human"
+              }
+            },
+            {
+              "id": "t2",
+              "kind": "variation",
+              "clipIds": [
+                "source2"
+              ],
+              "laneOrder": 1,
+              "parentTakeId": "t1",
+              "origin": {
+                "kind": "ai",
+                "prompt": "Try a higher note in bar two."
+              },
+              "ratings": [
+                {
+                  "evaluatorId": "editor",
+                  "score": 0.8
+                }
+              ]
+            }
+          ],
+          "comps": [
+            {
+              "id": "compA",
+              "noteBoundary": "truncate",
+              "compRegions": [
+                {
+                  "id": "seg1",
+                  "kind": "source",
+                  "startTick": 0,
+                  "durationTicks": 1920,
+                  "takeId": "t1",
+                  "clipId": "source1"
+                },
+                {
+                  "id": "seg2",
+                  "kind": "source",
+                  "startTick": 1920,
+                  "durationTicks": 1920,
+                  "takeId": "t2",
+                  "clipId": "source2"
+                }
+              ],
+              "outputClipIds": [
+                "outA"
+              ],
+              "noteLinks": [
+                {
+                  "sourceNoteId": "n1",
+                  "outputNoteId": "n4"
+                },
+                {
+                  "sourceNoteId": "n3",
+                  "outputNoteId": "n5"
+                }
+              ]
+            },
+            {
+              "id": "compB",
+              "noteBoundary": "truncate",
+              "compRegions": [
+                {
+                  "id": "seg3",
+                  "kind": "source",
+                  "startTick": 0,
+                  "durationTicks": 3840,
+                  "takeId": "t1",
+                  "clipId": "source1"
+                }
+              ],
+              "outputClipIds": [
+                "outB"
+              ]
+            }
+          ],
+          "activeCompId": "compA",
+          "visitSelections": [
+            {
+              "performancePlanId": "plan1",
+              "visitId": "visit2",
+              "compId": "compB"
+            }
+          ],
+          "liveSelection": {
+            "mode": "weighted",
+            "candidates": [
+              {
+                "compId": "compA",
+                "weight": 3
+              },
+              {
+                "compId": "compB",
+                "weight": 1
+              }
+            ]
+          },
+          "takeSelectionHistory": [
+            {
+              "sequence": 0,
+              "compId": "compA",
+              "actorId": "editor"
+            }
+          ]
+        }
+      ],
+      "tracks": [
+        {
+          "id": "guitar",
+          "name": "Guitar",
+          "trackType": "melodic",
+          "clips": [
+            {
+              "id": "source1",
+              "start": 0,
+              "duration": 3840,
+              "enabled": false,
+              "notes": [
+                {
+                  "id": "n1",
+                  "start": 0,
+                  "duration": 480,
+                  "pitch": 60,
+                  "velocity": 95
+                },
+                {
+                  "id": "n2",
+                  "start": 1920,
+                  "duration": 480,
+                  "pitch": 64,
+                  "velocity": 95
+                }
+              ]
+            },
+            {
+              "id": "source2",
+              "start": 1920,
+              "duration": 1920,
+              "enabled": false,
+              "notes": [
+                {
+                  "id": "n3",
+                  "start": 0,
+                  "duration": 480,
+                  "pitch": 67,
+                  "velocity": 110
+                }
+              ]
+            },
+            {
+              "id": "outA",
+              "start": 0,
+              "duration": 3840,
+              "enabled": true,
+              "notes": [
+                {
+                  "id": "n4",
+                  "start": 0,
+                  "duration": 480,
+                  "pitch": 60,
+                  "velocity": 95
+                },
+                {
+                  "id": "n5",
+                  "start": 1920,
+                  "duration": 480,
+                  "pitch": 67,
+                  "velocity": 110
+                }
+              ]
+            },
+            {
+              "id": "outB",
+              "start": 0,
+              "duration": 3840,
+              "enabled": false,
+              "notes": [
+                {
+                  "id": "n6",
+                  "start": 0,
+                  "duration": 480,
+                  "pitch": 60,
+                  "velocity": 95
+                },
+                {
+                  "id": "n7",
+                  "start": 1920,
+                  "duration": 480,
+                  "pitch": 64,
+                  "velocity": 95
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "unavailableFields": [
+      "timeline",
+      "harmony",
+      "lyrics",
+      "resources"
+    ]
+  }
+}

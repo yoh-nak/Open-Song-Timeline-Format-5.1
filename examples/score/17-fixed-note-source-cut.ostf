@@ -1,0 +1,205 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Fixed source cuts and contiguous joins"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "section-one",
+        "name": "One",
+        "start": 0,
+        "duration": 3840
+      },
+      {
+        "id": "section-two",
+        "name": "Two",
+        "start": 7680,
+        "duration": 3840
+      },
+      {
+        "id": "section-three",
+        "name": "Three",
+        "start": 11520,
+        "duration": 3840
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      },
+      {
+        "at": 7680,
+        "bpm": 84
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "cut-lead",
+      "name": "Cut Lead",
+      "clips": [
+        {
+          "id": "long-source-clip",
+          "start": 0,
+          "duration": 15360,
+          "notes": [
+            {
+              "id": "cut-shortened",
+              "start": 3600,
+              "duration": 960,
+              "pitch": 60,
+              "velocity": 80
+            },
+            {
+              "id": "cut-middle-gap",
+              "start": 3840,
+              "duration": 960,
+              "pitch": 62,
+              "velocity": 80
+            },
+            {
+              "id": "cut-pre-sustain",
+              "start": 7400,
+              "duration": 1200,
+              "pitch": 65,
+              "velocity": 78
+            },
+            {
+              "id": "cut-on-boundary",
+              "start": 7680,
+              "duration": 960,
+              "pitch": 67,
+              "velocity": 90
+            },
+            {
+              "id": "carry-across-contiguous-join",
+              "start": 11280,
+              "duration": 720,
+              "pitch": 69,
+              "velocity": 86
+            },
+            {
+              "id": "third-boundary-attack",
+              "start": 11520,
+              "duration": 960,
+              "pitch": 71,
+              "velocity": 89
+            },
+            {
+              "id": "probabilistic-repeated-source",
+              "start": 960,
+              "duration": 1440,
+              "pitch": 64,
+              "velocity": 90,
+              "probability": 0.5,
+              "velocityDeviation": -8
+            }
+          ],
+          "midiEvents": [
+            {
+              "id": "ctrl-before-source-jump",
+              "start": 3600,
+              "type": "controlChange",
+              "controller": 74,
+              "value": 56
+            },
+            {
+              "id": "ctrl-omitted-gap",
+              "start": 4000,
+              "type": "controlChange",
+              "controller": 74,
+              "value": 20
+            },
+            {
+              "id": "target-prior-note-selected",
+              "start": 3750,
+              "type": "polyPressure",
+              "pitch": 60,
+              "value": 43,
+              "targetNoteId": "cut-shortened"
+            },
+            {
+              "id": "target-prior-note-not-selected",
+              "start": 7800,
+              "type": "polyPressure",
+              "pitch": 65,
+              "value": 71,
+              "targetNoteId": "cut-pre-sustain"
+            },
+            {
+              "id": "program-on-source-entry",
+              "start": 7680,
+              "type": "programChange",
+              "program": 5
+            },
+            {
+              "id": "controller-on-contiguous-join",
+              "start": 11520,
+              "type": "controlChange",
+              "controller": 11,
+              "value": 100
+            },
+            {
+              "id": "target-across-contiguous-join",
+              "start": 11760,
+              "type": "polyPressure",
+              "pitch": 69,
+              "value": 93,
+              "targetNoteId": "carry-across-contiguous-join"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": [],
+  "performancePlans": [
+    {
+      "id": "plan-source-cut",
+      "mode": "orderedFinite",
+      "defaultRealization": "fixed",
+      "visits": [
+        {
+          "id": "cut-visit",
+          "ordinal": 0,
+          "sourceSectionIds": [
+            "section-one",
+            "section-two",
+            "section-three"
+          ],
+          "parts": []
+        },
+        {
+          "id": "replay-visit",
+          "ordinal": 1,
+          "sourceSectionIds": [
+            "section-one"
+          ],
+          "parts": []
+        }
+      ]
+    }
+  ]
+}

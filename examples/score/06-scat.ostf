@@ -1,0 +1,77 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Jazz scat"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A",
+        "name": "A",
+        "start": 0,
+        "duration": 30720
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "voice-track",
+      "name": "Jazz Singer",
+      "clips": [],
+      "directions": [
+        {
+          "id": "vocalFreedom-1",
+          "type": "vocalFreedom",
+          "start": 0,
+          "duration": 30720,
+          "parameters": {
+            "voiceId": "v-scat",
+            "textPolicy": "open",
+            "melodyPolicy": "open",
+            "vocalizationKind": "scat",
+            "adherence": "preferred"
+          }
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [
+      {
+        "id": "doc-scat"
+      }
+    ],
+    "phrases": [],
+    "units": [],
+    "alignments": [],
+    "voices": [
+      {
+        "id": "v-scat",
+        "trackId": "voice-track",
+        "documentId": "doc-scat",
+        "role": "adlib"
+      }
+    ]
+  },
+  "resources": []
+}

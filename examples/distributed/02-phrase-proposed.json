@@ -1,0 +1,30 @@
+{
+  "profile": "OSTF-Distributed-Session-0.4",
+  "sessionId": "jam-session-51-aaba",
+  "recordType": "event",
+  "eventId": "e-propose",
+  "issuerParticipantId": "agent",
+  "baseStateRevision": 1,
+  "effectivePerformanceTick": 123840,
+  "kind": "phraseProposed",
+  "payload": {
+    "proposalId": "proposal-1",
+    "targetTrackId": "piano",
+    "phrase": {
+      "durationTicks": 480,
+      "notes": [
+        {
+          "startTick": 0,
+          "durationTicks": 240,
+          "pitch": 60,
+          "velocity": 88
+        }
+      ],
+      "representation": "midi1Notes"
+    }
+  },
+  "documentId": "doc-remote-aaba-43",
+  "revisionId": "r2-51",
+  "performancePlanId": "form",
+  "scoreSha256": "0407da862082b270cf844e3edd59484950df9dee08486269ebe0b7b75b1a2b22"
+}

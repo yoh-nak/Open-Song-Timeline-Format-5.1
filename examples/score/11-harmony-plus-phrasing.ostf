@@ -1,0 +1,83 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Improvisation scale and phrasing",
+    "key": {
+      "state": "tonal",
+      "tonic": {
+        "step": "A",
+        "alter": 0
+      },
+      "mode": "minor"
+    }
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A",
+        "name": "A",
+        "start": 0,
+        "duration": 30720
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "guitar",
+      "name": "Guitar",
+      "clips": [],
+      "directions": [
+        {
+          "id": "improvisation-1",
+          "type": "improvisation",
+          "start": 0,
+          "duration": 30720,
+          "parameters": {
+            "pitchSource": {
+              "type": "effectiveKeyScale"
+            },
+            "adherence": "preferred"
+          }
+        },
+        {
+          "id": "phrasing-1",
+          "type": "phrasing",
+          "start": 0,
+          "duration": 30720,
+          "parameters": {
+            "contour": "ascending",
+            "development": "sequence",
+            "adherence": "preferred"
+          }
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": []
+}

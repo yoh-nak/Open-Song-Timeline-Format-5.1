@@ -1,0 +1,579 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yoh-nak.github.io/ostf/schema/ostf-plugin-context-1.0.schema.json",
+  "title": "OSTF Plugin Context Exchange 1.0",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "protocol": {
+      "const": "OSTF-Plugin-Context"
+    },
+    "protocolVersion": {
+      "const": "1.0.0"
+    },
+    "messageId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "operation": {
+      "enum": [
+        "context",
+        "editProposal",
+        "ack",
+        "diagnostic"
+      ]
+    },
+    "score": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "format": {
+          "const": "OSTF"
+        },
+        "version": {
+          "enum": [
+            "4.3.0",
+            "5.0.0"
+          ]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "documentId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "revisionId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        }
+      },
+      "required": [
+        "format",
+        "version",
+        "sha256"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "startTick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "durationTicks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "trackIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+          }
+        },
+        "sectionIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+          }
+        }
+      },
+      "required": [
+        "startTick",
+        "durationTicks"
+      ],
+      "description": "A view filter, not an authorization grant. The authority is the host, never this JSON payload."
+    },
+    "transport": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "isPlaying": {
+          "type": "boolean"
+        },
+        "positionTick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "hostPpq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "scorePpq": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "bpm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "meterNumerator": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "meterDenominator": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "loopActive": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "isPlaying",
+        "positionTick",
+        "hostPpq",
+        "scorePpq"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "description": "Required operation-specific payload; see allOf conditional contracts."
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "info",
+              "warning",
+              "error"
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "severity"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "protocol",
+    "protocolVersion",
+    "messageId",
+    "operation",
+    "score",
+    "scope",
+    "payload"
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pointer": {
+      "type": "string",
+      "pattern": "^/",
+      "minLength": 2,
+      "description": "Absolute JSON Pointer as defined by RFC 6901, referring to Core 4.3/5.0 content; root replacement forbidden."
+    },
+    "change": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "enum": [
+            "add",
+            "replace",
+            "remove"
+          ]
+        },
+        "path": {
+          "$ref": "#/$defs/pointer"
+        },
+        "targetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "containerId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "newEntityId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected": {
+          "description": "Original JSON value at path, required for replace/remove; compare structurally, without numeric/string coercion."
+        },
+        "value": {
+          "description": "Proposed new JSON value; required for add/replace."
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "path"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "add"
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "containerId",
+              "newEntityId",
+              "value"
+            ],
+            "not": {
+              "required": [
+                "expected"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "replace"
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "targetId",
+              "expected",
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "remove"
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "targetId",
+              "expected"
+            ],
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "contextPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "partial": {
+          "const": true
+        },
+        "data": {
+          "type": "object",
+          "description": "Selected musical attributes only; not a standalone valid .ostf document."
+        },
+        "unavailableFields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "partial",
+        "data"
+      ]
+    },
+    "proposalPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "proposalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "baseSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "mode": {
+          "const": "atomic"
+        },
+        "changes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/change"
+          }
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 8000
+        },
+        "baseRevisionId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional Core revision pin; if provided host must compare independently of SHA."
+        }
+      },
+      "required": [
+        "proposalId",
+        "baseSha256",
+        "mode",
+        "changes"
+      ]
+    },
+    "ackPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inReplyTo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "received",
+            "rejected",
+            "applied"
+          ]
+        },
+        "effectiveScoreSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "diagnosticCodes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "appliedRevisionId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Allowed only when status=applied and persisted new Score revision is known; never state a new revision when merely received/rejected."
+        }
+      },
+      "required": [
+        "inReplyTo",
+        "status"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "applied"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "effectiveScoreSha256"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "received",
+                  "rejected"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "effectiveScoreSha256"
+                  ]
+                },
+                {
+                  "required": [
+                    "appliedRevisionId"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "applied"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "not": {
+              "properties": {
+                "effectiveScoreSha256": {
+                  "const": "0000000000000000000000000000000000000000000000000000000000000000"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "diagnosticPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inReplyTo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "invalid",
+            "unsupported",
+            "stale",
+            "scopeViolation",
+            "permissionDenied",
+            "conflict",
+            "informationLoss",
+            "internalError"
+          ]
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pointer"
+          }
+        },
+        "detail": {
+          "type": "string",
+          "maxLength": 16000
+        }
+      },
+      "required": [
+        "status"
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "context"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/contextPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "editProposal"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/proposalPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "ack"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/ackPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "diagnostic"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/diagnosticPayload"
+          }
+        }
+      }
+    }
+  ],
+  "$comment": "Non-applied ACK statuses received/rejected cannot include effectiveScoreSha256 or appliedRevisionId. Host persists a new full Score before acknowledging applied. Transport and host permissions are not standardized by this JSON contract."
+}

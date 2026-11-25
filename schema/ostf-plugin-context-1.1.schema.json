@@ -1,0 +1,719 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yoh-nak.github.io/ostf/schema/ostf-plugin-context-1.1.schema.json",
+  "title": "OSTF Plugin Context Exchange 1.1",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "protocol": {
+      "const": "OSTF-Plugin-Context"
+    },
+    "protocolVersion": {
+      "const": "1.1.0"
+    },
+    "messageId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+    },
+    "operation": {
+      "enum": [
+        "context",
+        "editProposal",
+        "ack",
+        "diagnostic"
+      ]
+    },
+    "score": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "format": {
+          "const": "OSTF"
+        },
+        "version": {
+          "enum": [
+            "4.3.0",
+            "5.0.0",
+            "5.1.0"
+          ]
+        },
+        "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "documentId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        },
+        "revisionId": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+        }
+      },
+      "required": [
+        "format",
+        "version",
+        "sha256"
+      ]
+    },
+    "scope": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "startTick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "durationTicks": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "trackIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+          }
+        },
+        "sectionIds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$"
+          }
+        }
+      },
+      "required": [
+        "startTick",
+        "durationTicks"
+      ],
+      "description": "A view filter, not an authorization grant. The authority is the host, never this JSON payload."
+    },
+    "transport": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "isPlaying": {
+          "type": "boolean"
+        },
+        "positionTick": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "hostPpq": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "scorePpq": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 9007199254740991
+        },
+        "bpm": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "meterNumerator": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "meterDenominator": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "loopActive": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "isPlaying",
+        "positionTick",
+        "hostPpq",
+        "scorePpq"
+      ]
+    },
+    "payload": {
+      "type": "object",
+      "description": "Required operation-specific payload; see allOf conditional contracts."
+    },
+    "diagnostics": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "severity": {
+            "enum": [
+              "info",
+              "warning",
+              "error"
+            ]
+          }
+        },
+        "required": [
+          "code",
+          "severity"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": [
+    "protocol",
+    "protocolVersion",
+    "messageId",
+    "operation",
+    "score",
+    "scope",
+    "payload"
+  ],
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "pointer": {
+      "type": "string",
+      "pattern": "^/",
+      "minLength": 2,
+      "description": "Non-root absolute RFC 6901 JSON Pointer. Syntax and referents require semantic validation; this reusable definition is also used in diagnostics."
+    },
+    "change": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "op": {
+          "enum": [
+            "add",
+            "replace",
+            "remove"
+          ]
+        },
+        "path": {
+          "$ref": "#/$defs/editPointer51"
+        },
+        "targetId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "containerId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "newEntityId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "expected": {
+          "description": "Original JSON value at path, required for replace/remove; compare structurally, without numeric/string coercion."
+        },
+        "value": {
+          "description": "Proposed new JSON value; required for add/replace."
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "op",
+        "path"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "add"
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "containerId",
+              "newEntityId",
+              "value"
+            ],
+            "not": {
+              "required": [
+                "expected"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "replace"
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "targetId",
+              "expected",
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "remove"
+              }
+            },
+            "required": [
+              "op"
+            ]
+          },
+          "then": {
+            "required": [
+              "targetId",
+              "expected"
+            ],
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "path": {
+                "pattern": "^/takeGroups/-"
+              }
+            },
+            "required": [
+              "path"
+            ]
+          },
+          "then": {
+            "properties": {
+              "path": {
+                "const": "/takeGroups/-"
+              },
+              "op": {
+                "const": "add"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "contextPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "partial": {
+          "const": true
+        },
+        "data": {
+          "type": "object",
+          "description": "Selected musical attributes only; not a standalone valid .ostf document."
+        },
+        "unavailableFields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "required": [
+        "partial",
+        "data"
+      ]
+    },
+    "proposalPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "proposalId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "baseSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "mode": {
+          "const": "atomic"
+        },
+        "changes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "$ref": "#/$defs/change"
+          }
+        },
+        "reason": {
+          "type": "string",
+          "maxLength": 8000
+        },
+        "baseRevisionId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Optional Core revision pin; if provided host must compare independently of SHA."
+        }
+      },
+      "required": [
+        "proposalId",
+        "baseSha256",
+        "mode",
+        "changes"
+      ],
+      "description": "Untrusted atomic proposal checked against one immutable pinned Score. A /takeGroups/- add uses containerId equal to the pinned Score.document.id and envelope score.documentId, with newEntityId equal to value.id. The takeGroups array must already exist. Values must resolve to exact stable IDs and map/source/output edits must remain consistent."
+    },
+    "ackPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inReplyTo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "received",
+            "rejected",
+            "applied"
+          ]
+        },
+        "effectiveScoreSha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "diagnosticCodes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "minLength": 1
+          }
+        },
+        "appliedRevisionId": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Allowed only when status=applied and persisted new Score revision is known; never state a new revision when merely received/rejected."
+        }
+      },
+      "required": [
+        "inReplyTo",
+        "status"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "applied"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "required": [
+              "effectiveScoreSha256"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "enum": [
+                  "received",
+                  "rejected"
+                ]
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "effectiveScoreSha256"
+                  ]
+                },
+                {
+                  "required": [
+                    "appliedRevisionId"
+                  ]
+                }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "applied"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "then": {
+            "not": {
+              "properties": {
+                "effectiveScoreSha256": {
+                  "const": "0000000000000000000000000000000000000000000000000000000000000000"
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "diagnosticPayload": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "inReplyTo": {
+          "type": "string",
+          "minLength": 1
+        },
+        "status": {
+          "enum": [
+            "invalid",
+            "unsupported",
+            "stale",
+            "scopeViolation",
+            "permissionDenied",
+            "conflict",
+            "informationLoss",
+            "internalError"
+          ]
+        },
+        "paths": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/pointer"
+          }
+        },
+        "detail": {
+          "type": "string",
+          "maxLength": 16000
+        }
+      },
+      "required": [
+        "status"
+      ]
+    },
+    "editPointer51": {
+      "allOf": [
+        {
+          "$ref": "#/$defs/pointer"
+        },
+        {
+          "pattern": "^(?:/(?:timeline|harmony|tracks|lyrics)(?:/|$)|/takeGroups/(?:0|[1-9][0-9]*|-)(?:/|$))"
+        },
+        {
+          "pattern": "^(?:/(?:[^~/]|~[01])*)+$"
+        }
+      ],
+      "description": "Edit roots remain timeline/harmony/tracks/lyrics. Score 5.1 may add or edit individual takeGroups entities. Whole root takeGroups array insertion/replacement is not a protocol operation. The host must initialize an absent array and issue a newly pinned Context."
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "context"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/contextPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "editProposal"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/proposalPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "ack"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/ackPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "diagnostic"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "properties": {
+          "payload": {
+            "$ref": "#/$defs/diagnosticPayload"
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "editProposal"
+          }
+        },
+        "required": [
+          "operation"
+        ]
+      },
+      "then": {
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "score": {
+                  "properties": {
+                    "version": {
+                      "enum": [
+                        "4.3.0",
+                        "5.0.0"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "version"
+                  ]
+                }
+              },
+              "required": [
+                "score"
+              ]
+            },
+            "then": {
+              "properties": {
+                "payload": {
+                  "properties": {
+                    "changes": {
+                      "items": {
+                        "properties": {
+                          "path": {
+                            "pattern": "^/(?:timeline|harmony|tracks|lyrics)(?:/|$)"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "properties": {
+                "payload": {
+                  "properties": {
+                    "changes": {
+                      "contains": {
+                        "properties": {
+                          "op": {
+                            "const": "add"
+                          },
+                          "path": {
+                            "const": "/takeGroups/-"
+                          }
+                        },
+                        "required": [
+                          "op",
+                          "path"
+                        ]
+                      },
+                      "minContains": 1
+                    }
+                  },
+                  "required": [
+                    "changes"
+                  ]
+                }
+              },
+              "required": [
+                "payload"
+              ]
+            },
+            "then": {
+              "properties": {
+                "score": {
+                  "required": [
+                    "documentId"
+                  ]
+                }
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "$comment": "Integrated OSTF 5.1 written specification, 2026-11-25. Inherited schemas are preserved separately. Local reference integrity and publication structure are distinct from semantic conformance and implementation/runtime certification. Timing coordinates and their arithmetic endpoints must remain safe integers."
+}

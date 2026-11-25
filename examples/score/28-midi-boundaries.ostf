@@ -1,0 +1,375 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 480,
+  "song": {
+    "title": "MIDI truncate, retrigger and authored boundaries with sustain chase"
+  },
+  "timeline": {
+    "duration": 3840,
+    "sections": [
+      {
+        "id": "chorus",
+        "name": "Chorus",
+        "start": 0,
+        "duration": 3840
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "boundary-track",
+      "name": "Boundary examples",
+      "clips": [
+        {
+          "id": "b-source",
+          "start": 0,
+          "duration": 3840,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "b-held",
+              "start": 480,
+              "duration": 2400,
+              "pitch": 60,
+              "velocity": 95
+            },
+            {
+              "id": "b-tail",
+              "start": 2400,
+              "duration": 1200,
+              "pitch": 67,
+              "velocity": 95
+            }
+          ],
+          "midiEvents": [
+            {
+              "id": "b-sus-on",
+              "start": 0,
+              "type": "controlChange",
+              "controller": 64,
+              "value": 127
+            },
+            {
+              "id": "b-timbre",
+              "start": 600,
+              "type": "controlChange",
+              "controller": 74,
+              "value": 80
+            },
+            {
+              "id": "b-sus-off",
+              "start": 3800,
+              "type": "controlChange",
+              "controller": 64,
+              "value": 0
+            }
+          ]
+        },
+        {
+          "id": "b-truncate",
+          "start": 960,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "b-t-tail",
+              "start": 1440,
+              "duration": 480,
+              "pitch": 67,
+              "velocity": 95
+            }
+          ],
+          "midiEvents": [
+            {
+              "id": "b-truncate-sus-on",
+              "start": 0,
+              "type": "controlChange",
+              "controller": 64,
+              "value": 127
+            },
+            {
+              "id": "b-truncate-timbre",
+              "start": 0,
+              "type": "controlChange",
+              "controller": 74,
+              "value": 80
+            },
+            {
+              "id": "b-truncate-sus-off",
+              "start": 1919,
+              "type": "controlChange",
+              "controller": 64,
+              "value": 0
+            }
+          ]
+        },
+        {
+          "id": "b-retrigger",
+          "start": 960,
+          "duration": 1920,
+          "enabled": true,
+          "notes": [
+            {
+              "id": "b-r-held",
+              "start": 0,
+              "duration": 1920,
+              "pitch": 60,
+              "velocity": 95
+            },
+            {
+              "id": "b-r-tail",
+              "start": 1440,
+              "duration": 480,
+              "pitch": 67,
+              "velocity": 95
+            }
+          ],
+          "midiEvents": [
+            {
+              "id": "b-retrigger-sus-on",
+              "start": 0,
+              "type": "controlChange",
+              "controller": 64,
+              "value": 127
+            },
+            {
+              "id": "b-retrigger-timbre",
+              "start": 0,
+              "type": "controlChange",
+              "controller": 74,
+              "value": 80
+            },
+            {
+              "id": "b-retrigger-sus-off",
+              "start": 1919,
+              "type": "controlChange",
+              "controller": 64,
+              "value": 0
+            }
+          ]
+        },
+        {
+          "id": "b-authored",
+          "start": 960,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "b-a-held",
+              "start": 20,
+              "duration": 1880,
+              "pitch": 60,
+              "velocity": 88
+            },
+            {
+              "id": "b-a-tail",
+              "start": 1480,
+              "duration": 400,
+              "pitch": 67,
+              "velocity": 100
+            }
+          ],
+          "midiEvents": [
+            {
+              "id": "b-authored-sus-on",
+              "start": 0,
+              "type": "controlChange",
+              "controller": 64,
+              "value": 127
+            },
+            {
+              "id": "b-authored-timbre",
+              "start": 0,
+              "type": "controlChange",
+              "controller": 74,
+              "value": 80
+            },
+            {
+              "id": "b-authored-sus-off",
+              "start": 1919,
+              "type": "controlChange",
+              "controller": 64,
+              "value": 0
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": [],
+  "takeGroups": [
+    {
+      "id": "boundary-group",
+      "trackId": "boundary-track",
+      "startTick": 0,
+      "durationTicks": 3840,
+      "takes": [
+        {
+          "id": "b-take",
+          "kind": "take",
+          "clipIds": [
+            "b-source"
+          ],
+          "origin": {
+            "kind": "import"
+          }
+        }
+      ],
+      "comps": [
+        {
+          "id": "truncate",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "truncate-pre",
+              "kind": "silence",
+              "startTick": 0,
+              "durationTicks": 960
+            },
+            {
+              "id": "truncate-mid",
+              "kind": "source",
+              "startTick": 960,
+              "durationTicks": 1920,
+              "takeId": "b-take",
+              "clipId": "b-source"
+            },
+            {
+              "id": "truncate-post",
+              "kind": "silence",
+              "startTick": 2880,
+              "durationTicks": 960
+            }
+          ],
+          "outputClipIds": [
+            "b-truncate"
+          ],
+          "noteLinks": [
+            {
+              "sourceNoteId": "b-tail",
+              "outputNoteId": "b-t-tail"
+            }
+          ]
+        },
+        {
+          "id": "retrigger",
+          "noteBoundary": "retrigger",
+          "compRegions": [
+            {
+              "id": "retrigger-pre",
+              "kind": "silence",
+              "startTick": 0,
+              "durationTicks": 960
+            },
+            {
+              "id": "retrigger-mid",
+              "kind": "source",
+              "startTick": 960,
+              "durationTicks": 1920,
+              "takeId": "b-take",
+              "clipId": "b-source"
+            },
+            {
+              "id": "retrigger-post",
+              "kind": "silence",
+              "startTick": 2880,
+              "durationTicks": 960
+            }
+          ],
+          "outputClipIds": [
+            "b-retrigger"
+          ],
+          "noteLinks": [
+            {
+              "sourceNoteId": "b-held",
+              "outputNoteId": "b-r-held"
+            },
+            {
+              "sourceNoteId": "b-tail",
+              "outputNoteId": "b-r-tail"
+            }
+          ]
+        },
+        {
+          "id": "authored",
+          "noteBoundary": "authored",
+          "compRegions": [
+            {
+              "id": "authored-pre",
+              "kind": "silence",
+              "startTick": 0,
+              "durationTicks": 960
+            },
+            {
+              "id": "authored-mid",
+              "kind": "source",
+              "startTick": 960,
+              "durationTicks": 1920,
+              "takeId": "b-take",
+              "clipId": "b-source"
+            },
+            {
+              "id": "authored-post",
+              "kind": "silence",
+              "startTick": 2880,
+              "durationTicks": 960
+            }
+          ],
+          "outputClipIds": [
+            "b-authored"
+          ],
+          "noteLinks": [
+            {
+              "sourceNoteId": "b-held",
+              "outputNoteId": "b-a-held"
+            },
+            {
+              "sourceNoteId": "b-tail",
+              "outputNoteId": "b-a-tail"
+            }
+          ]
+        }
+      ],
+      "activeCompId": "retrigger",
+      "liveSelection": {
+        "mode": "cycle",
+        "candidates": [
+          {
+            "compId": "truncate"
+          },
+          {
+            "compId": "retrigger"
+          },
+          {
+            "compId": "authored"
+          }
+        ]
+      }
+    }
+  ]
+}

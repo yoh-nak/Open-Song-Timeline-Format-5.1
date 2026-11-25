@@ -1,0 +1,782 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://yoh-nak.github.io/ostf/schema/ostf-production-session-0.2.schema.json",
+  "title": "OSTF Production Session Profile 0.2.0 (Draft 0.15; not ratified)",
+  "description": "Optional studio companion profile; audio regions, sidechains and targeted Send/Region/Device-control automation. Descriptive data, not plug-in execution or DAW interoperability certification.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "profile": {
+      "const": "OSTF-Production-Session"
+    },
+    "profileVersion": {
+      "const": "0.2.0"
+    },
+    "score": {
+      "$ref": "#/$defs/score"
+    },
+    "channels": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/channel"
+      },
+      "minItems": 1
+    },
+    "devices": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/device"
+      },
+      "minItems": 0
+    },
+    "assets": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/asset"
+      },
+      "minItems": 0
+    },
+    "automation": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/automation"
+      },
+      "minItems": 0
+    },
+    "notes": {
+      "type": "string"
+    },
+    "hostExtensions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/hostExtension"
+      }
+    },
+    "audioRegions": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/audioRegion"
+      },
+      "minItems": 0,
+      "description": "Optional authored audio-region arrangement in source-score global Tick time. Does not modify OSTF Core Clips/Notes."
+    },
+    "sidechainConnections": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/sidechainConnection"
+      },
+      "minItems": 0,
+      "description": "Optional typed, acyclic audio detector/key inputs to effect plugin ports; not part of normal audible output routing."
+    }
+  },
+  "required": [
+    "profile",
+    "profileVersion",
+    "score",
+    "channels"
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^\\S+$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "score": {
+      "type": "object",
+      "properties": {
+        "formatVersion": {
+          "const": "4.3.0"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "documentId": {
+          "$ref": "#/$defs/id"
+        },
+        "revisionId": {
+          "$ref": "#/$defs/id"
+        },
+        "sourceUri": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "formatVersion",
+        "sha256"
+      ],
+      "additionalProperties": false
+    },
+    "channel": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "kind": {
+          "enum": [
+            "track",
+            "audioTrack",
+            "bus",
+            "master"
+          ],
+          "description": "audioTrack is a production-only recorded-audio channel, and MUST NOT claim a Core trackId. kind track still maps an OSTF Track exactly as in 0.1."
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "trackId": {
+          "$ref": "#/$defs/id"
+        },
+        "audioChannels": {
+          "enum": [
+            1,
+            2
+          ]
+        },
+        "gainDb": {
+          "type": "number",
+          "minimum": -120,
+          "maximum": 24
+        },
+        "pan": {
+          "type": "number",
+          "minimum": -1,
+          "maximum": 1
+        },
+        "mute": {
+          "type": "boolean"
+        },
+        "solo": {
+          "type": "boolean"
+        },
+        "soloSafe": {
+          "type": "boolean"
+        },
+        "outputChannelId": {
+          "$ref": "#/$defs/id"
+        },
+        "deviceIds": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/id"
+          },
+          "minItems": 0,
+          "uniqueItems": true
+        },
+        "sends": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/send"
+          },
+          "minItems": 0
+        }
+      },
+      "required": [
+        "id",
+        "kind",
+        "audioChannels",
+        "gainDb",
+        "pan",
+        "mute",
+        "solo",
+        "soloSafe",
+        "deviceIds"
+      ],
+      "additionalProperties": false
+    },
+    "send": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "targetChannelId": {
+          "$ref": "#/$defs/id"
+        },
+        "gainDb": {
+          "type": "number",
+          "minimum": -120,
+          "maximum": 24
+        },
+        "preFader": {
+          "type": "boolean"
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "targetChannelId",
+        "gainDb",
+        "preFader",
+        "enabled"
+      ],
+      "additionalProperties": false
+    },
+    "device": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "role": {
+          "enum": [
+            "instrument",
+            "effect",
+            "utility"
+          ]
+        },
+        "plugin": {
+          "$ref": "#/$defs/plugin"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "bypass": {
+          "type": "boolean"
+        },
+        "stateAssetId": {
+          "$ref": "#/$defs/id"
+        },
+        "onUnavailable": {
+          "enum": [
+            "reportAndPreserve",
+            "preserveAndBypass",
+            "preserveAndSilence"
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "role",
+        "plugin",
+        "enabled",
+        "bypass"
+      ],
+      "additionalProperties": false
+    },
+    "plugin": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "enum": [
+            "vst2",
+            "vst3",
+            "clap",
+            "au",
+            "aax",
+            "builtin",
+            "hostNative",
+            "other"
+          ]
+        },
+        "pluginId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "vendor": {
+          "type": "string",
+          "minLength": 1
+        },
+        "name": {
+          "type": "string",
+          "minLength": 1
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "namespace": {
+          "type": "string",
+          "minLength": 1
+        }
+      },
+      "required": [
+        "format",
+        "pluginId",
+        "name"
+      ],
+      "additionalProperties": false
+    },
+    "asset": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "purpose": {
+          "enum": [
+            "pluginState",
+            "renderedAudio",
+            "other",
+            "audioSource"
+          ]
+        },
+        "uri": {
+          "type": "string",
+          "minLength": 1
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "mediaType": {
+          "type": "string",
+          "minLength": 1
+        },
+        "byteLength": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sampleRateHz": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 768000,
+          "description": "Audio-source decoded sample frames per second; required only for purpose audioSource."
+        },
+        "frameCount": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Number of decoded sample frames in the complete audio source asset; required for audioSource."
+        },
+        "audioChannels": {
+          "type": "integer",
+          "enum": [
+            1,
+            2
+          ],
+          "description": "Mono/stereo decoded source-channel count; required only for audioSource in 0.2."
+        }
+      },
+      "required": [
+        "id",
+        "purpose",
+        "uri",
+        "sha256"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "purpose": {
+                "const": "audioSource"
+              }
+            },
+            "required": [
+              "purpose"
+            ]
+          },
+          "then": {
+            "required": [
+              "sampleRateHz",
+              "frameCount",
+              "audioChannels",
+              "mediaType"
+            ]
+          },
+          "else": {
+            "not": {
+              "anyOf": [
+                {
+                  "required": [
+                    "sampleRateHz"
+                  ]
+                },
+                {
+                  "required": [
+                    "frameCount"
+                  ]
+                },
+                {
+                  "required": [
+                    "audioChannels"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      "description": "Opaque asset descriptors. audioSource requires sampling metadata for frame-accurate regions; plug-in state remains uninterpreted and never executable merely by presence in JSON."
+    },
+    "automation": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "target": {
+          "$ref": "#/$defs/automationTarget"
+        },
+        "valueType": {
+          "enum": [
+            "number",
+            "boolean"
+          ]
+        },
+        "interpolation": {
+          "enum": [
+            "step",
+            "linear"
+          ]
+        },
+        "points": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/point"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "id",
+        "target",
+        "valueType",
+        "interpolation",
+        "points"
+      ],
+      "additionalProperties": false,
+      "description": "Unique source-global-Tick automation lane. Boolean controls use step interpolation. A single lane per exact target; static value acts as baseline before first point where available. Device plugin parameters are normalized 0..1, while deviceControl.enabled/bypass are explicit booleans.",
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "valueType": {
+                "const": "boolean"
+              }
+            },
+            "required": [
+              "valueType"
+            ]
+          },
+          "then": {
+            "properties": {
+              "interpolation": {
+                "const": "step"
+              }
+            }
+          }
+        }
+      ]
+    },
+    "automationTarget": {
+      "oneOf": [
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "channel"
+            },
+            "channelId": {
+              "$ref": "#/$defs/id"
+            },
+            "parameter": {
+              "enum": [
+                "gainDb",
+                "pan",
+                "mute"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "channelId",
+            "parameter"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "properties": {
+            "kind": {
+              "const": "device"
+            },
+            "deviceId": {
+              "$ref": "#/$defs/id"
+            },
+            "parameterId": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "kind",
+            "deviceId",
+            "parameterId"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "send"
+            },
+            "sendId": {
+              "$ref": "#/$defs/id"
+            },
+            "parameter": {
+              "enum": [
+                "gainDb",
+                "enabled"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "sendId",
+            "parameter"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "audioRegion"
+            },
+            "audioRegionId": {
+              "$ref": "#/$defs/id"
+            },
+            "parameter": {
+              "enum": [
+                "gainDb",
+                "mute"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "audioRegionId",
+            "parameter"
+          ]
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "kind": {
+              "const": "deviceControl"
+            },
+            "deviceId": {
+              "$ref": "#/$defs/id"
+            },
+            "parameter": {
+              "enum": [
+                "enabled",
+                "bypass"
+              ]
+            }
+          },
+          "required": [
+            "kind",
+            "deviceId",
+            "parameter"
+          ]
+        }
+      ],
+      "description": "Channel, plugin parameter, Send, audio Region, or Device slot control automation target. Non-channel options added to the unpublished 0.2 development draft. References resolve within this Production Profile, not into MIDI CC or Core Note IDs."
+    },
+    "point": {
+      "type": "object",
+      "properties": {
+        "atTick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "value": {
+          "oneOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "required": [
+        "atTick",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "hostExtension": {
+      "type": "object",
+      "properties": {
+        "namespace": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9]+(?:\\.[A-Za-z0-9-]+)+$"
+        },
+        "version": {
+          "type": "string",
+          "minLength": 1
+        },
+        "data": {
+          "type": "object"
+        }
+      },
+      "required": [
+        "namespace",
+        "data"
+      ],
+      "additionalProperties": false
+    },
+    "audioRegion": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Source-score-tick audio segment on a production track or score-bound track channel, referencing a bounded range of exact audioSource PCM-decoded frames.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "channelId": {
+          "$ref": "#/$defs/id"
+        },
+        "sourceAssetId": {
+          "$ref": "#/$defs/id"
+        },
+        "startTick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "durationTicks": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "sourceStartFrame": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "sourceFrameCount": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "playbackMode": {
+          "enum": [
+            "native",
+            "fit"
+          ],
+          "description": "native maps ideal source-time seconds to sample frames at sampleRateHz; fit uniformly maps authored global Tick progress to the selected frame interval."
+        },
+        "pitchPolicy": {
+          "enum": [
+            "preserve",
+            "followRate"
+          ],
+          "description": "Required for fit; preserve means retain source pitch as a musical goal, followRate means speed/rate-based pitch change. Both are DSP/host dependent."
+        },
+        "gainDb": {
+          "type": "number",
+          "minimum": -120,
+          "maximum": 24
+        },
+        "mute": {
+          "type": "boolean"
+        },
+        "fadeInTicks": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "fadeOutTicks": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "id",
+        "channelId",
+        "sourceAssetId",
+        "startTick",
+        "durationTicks",
+        "sourceStartFrame",
+        "sourceFrameCount",
+        "playbackMode",
+        "gainDb",
+        "mute"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "playbackMode": {
+                "const": "fit"
+              }
+            },
+            "required": [
+              "playbackMode"
+            ]
+          },
+          "then": {
+            "required": [
+              "pitchPolicy"
+            ]
+          },
+          "else": {
+            "not": {
+              "required": [
+                "pitchPolicy"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "sidechainConnection": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Directed detector/key signal from sourceChannelId to named key input port of an effect Device belonging to a different audio channel. Does not mix into its audible output path.",
+      "properties": {
+        "id": {
+          "$ref": "#/$defs/id"
+        },
+        "sourceChannelId": {
+          "$ref": "#/$defs/id"
+        },
+        "targetDeviceId": {
+          "$ref": "#/$defs/id"
+        },
+        "targetPortId": {
+          "$ref": "#/$defs/id",
+          "description": "Opaque plugin-format-scoped sidechain input identifier. A host must verify the port actually exists; no port auto-matching by label."
+        },
+        "tapPoint": {
+          "enum": [
+            "preFader",
+            "postFader"
+          ]
+        },
+        "followMute": {
+          "type": "boolean",
+          "description": "If true, source channel mute suppresses this sidechain; if false, the detector feed can remain present even when that source channel is muted audibly."
+        },
+        "gainDb": {
+          "type": "number",
+          "minimum": -120,
+          "maximum": 24
+        },
+        "enabled": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "id",
+        "sourceChannelId",
+        "targetDeviceId",
+        "targetPortId",
+        "tapPoint",
+        "followMute",
+        "gainDb",
+        "enabled"
+      ]
+    }
+  }
+}

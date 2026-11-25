@@ -1,0 +1,29 @@
+{
+  "protocol": "OSTF-Plugin-Context",
+  "protocolVersion": "1.1.0",
+  "messageId": "take-applied-ack",
+  "operation": "ack",
+  "score": {
+    "format": "OSTF",
+    "version": "5.1.0",
+    "sha256": "e48940cd6a3ebf90603a4717b619f9017cd81e53cd7bc79a4d956661a8337312",
+    "documentId": "take-comp-demo",
+    "revisionId": "take-r1"
+  },
+  "scope": {
+    "startTick": 0,
+    "durationTicks": 3840,
+    "trackIds": [
+      "guitar"
+    ],
+    "sectionIds": [
+      "chorus"
+    ]
+  },
+  "payload": {
+    "inReplyTo": "take-proposal-message",
+    "status": "applied",
+    "effectiveScoreSha256": "ee4a8699f6572ba98b30877b2f5abbac42182401e203cb81b67d7ee37cd23032",
+    "appliedRevisionId": "take-r2"
+  }
+}

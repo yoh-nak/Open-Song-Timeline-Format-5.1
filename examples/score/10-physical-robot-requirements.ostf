@@ -1,0 +1,78 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 960,
+  "song": {
+    "title": "Physical robot compatible parts"
+  },
+  "timeline": {
+    "sections": [
+      {
+        "id": "A",
+        "name": "A",
+        "start": 0,
+        "duration": 30720
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "robot-piano",
+      "name": "Robot Piano",
+      "clips": [],
+      "performanceRequirements": {
+        "requiredPolyphony": 4,
+        "requiredPitchRange": {
+          "lowPitch": 48,
+          "highPitch": 84
+        },
+        "requiredArticulations": [
+          "staccato",
+          "legato"
+        ],
+        "peakOnsetGroupsPerQuarter": 4
+      }
+    },
+    {
+      "id": "human-bass",
+      "name": "Bass",
+      "clips": []
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": [],
+  "ensembleInteractions": [
+    {
+      "id": "rhythmic-follow",
+      "actorTrackId": "robot-piano",
+      "partnerTrackId": "human-bass",
+      "relation": "followRhythm",
+      "start": 0,
+      "duration": 30720,
+      "adherence": "preferred"
+    }
+  ]
+}

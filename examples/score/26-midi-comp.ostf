@@ -1,0 +1,300 @@
+{
+  "format": "OSTF",
+  "version": "5.1.0",
+  "ppq": 480,
+  "song": {
+    "title": "MIDI comp with partial second take",
+    "description": "Original illustrative notes. Candidate origins and ratings are fictional metadata."
+  },
+  "timeline": {
+    "duration": 3840,
+    "sections": [
+      {
+        "id": "chorus",
+        "name": "Chorus",
+        "start": 0,
+        "duration": 3840
+      }
+    ],
+    "tempoChanges": [
+      {
+        "at": 0,
+        "bpm": 120
+      }
+    ],
+    "meterChanges": [
+      {
+        "at": 0,
+        "numerator": 4,
+        "denominator": 4
+      }
+    ]
+  },
+  "harmony": {
+    "chords": [
+      {
+        "id": "h-c",
+        "start": 0,
+        "duration": 1920,
+        "label": "C"
+      },
+      {
+        "id": "h-g",
+        "start": 1920,
+        "duration": 1920,
+        "label": "G"
+      }
+    ],
+    "scales": []
+  },
+  "tracks": [
+    {
+      "id": "guitar",
+      "name": "Guitar",
+      "trackType": "melodic",
+      "clips": [
+        {
+          "id": "source1",
+          "start": 0,
+          "duration": 3840,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "n1",
+              "start": 0,
+              "duration": 480,
+              "pitch": 60,
+              "velocity": 95
+            },
+            {
+              "id": "n2",
+              "start": 1920,
+              "duration": 480,
+              "pitch": 64,
+              "velocity": 95
+            }
+          ]
+        },
+        {
+          "id": "source2",
+          "start": 1920,
+          "duration": 1920,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "n3",
+              "start": 0,
+              "duration": 480,
+              "pitch": 67,
+              "velocity": 110
+            }
+          ]
+        },
+        {
+          "id": "outA",
+          "start": 0,
+          "duration": 3840,
+          "enabled": true,
+          "notes": [
+            {
+              "id": "n4",
+              "start": 0,
+              "duration": 480,
+              "pitch": 60,
+              "velocity": 95
+            },
+            {
+              "id": "n5",
+              "start": 1920,
+              "duration": 480,
+              "pitch": 67,
+              "velocity": 110
+            }
+          ]
+        },
+        {
+          "id": "outB",
+          "start": 0,
+          "duration": 3840,
+          "enabled": false,
+          "notes": [
+            {
+              "id": "n6",
+              "start": 0,
+              "duration": 480,
+              "pitch": 60,
+              "velocity": 95
+            },
+            {
+              "id": "n7",
+              "start": 1920,
+              "duration": 480,
+              "pitch": 64,
+              "velocity": 95
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "soundSlots": [],
+  "lyrics": {
+    "documents": [],
+    "phrases": [],
+    "units": [],
+    "alignments": []
+  },
+  "resources": [],
+  "performancePlans": [
+    {
+      "id": "plan1",
+      "mode": "orderedFinite",
+      "defaultRealization": "fixed",
+      "visits": [
+        {
+          "id": "visit1",
+          "ordinal": 0,
+          "sourceSectionIds": [
+            "chorus"
+          ],
+          "parts": []
+        },
+        {
+          "id": "visit2",
+          "ordinal": 1,
+          "sourceSectionIds": [
+            "chorus"
+          ],
+          "parts": []
+        }
+      ]
+    }
+  ],
+  "takeGroups": [
+    {
+      "id": "g1",
+      "trackId": "guitar",
+      "sectionId": "chorus",
+      "startTick": 0,
+      "durationTicks": 3840,
+      "takes": [
+        {
+          "id": "t1",
+          "kind": "take",
+          "clipIds": [
+            "source1"
+          ],
+          "laneOrder": 0,
+          "origin": {
+            "kind": "human"
+          }
+        },
+        {
+          "id": "t2",
+          "kind": "variation",
+          "clipIds": [
+            "source2"
+          ],
+          "laneOrder": 1,
+          "parentTakeId": "t1",
+          "origin": {
+            "kind": "ai",
+            "prompt": "Try a higher note in bar two."
+          },
+          "ratings": [
+            {
+              "evaluatorId": "editor",
+              "score": 0.8
+            }
+          ]
+        }
+      ],
+      "comps": [
+        {
+          "id": "compA",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "seg1",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 1920,
+              "takeId": "t1",
+              "clipId": "source1"
+            },
+            {
+              "id": "seg2",
+              "kind": "source",
+              "startTick": 1920,
+              "durationTicks": 1920,
+              "takeId": "t2",
+              "clipId": "source2"
+            }
+          ],
+          "outputClipIds": [
+            "outA"
+          ],
+          "noteLinks": [
+            {
+              "sourceNoteId": "n1",
+              "outputNoteId": "n4"
+            },
+            {
+              "sourceNoteId": "n3",
+              "outputNoteId": "n5"
+            }
+          ]
+        },
+        {
+          "id": "compB",
+          "noteBoundary": "truncate",
+          "compRegions": [
+            {
+              "id": "seg3",
+              "kind": "source",
+              "startTick": 0,
+              "durationTicks": 3840,
+              "takeId": "t1",
+              "clipId": "source1"
+            }
+          ],
+          "outputClipIds": [
+            "outB"
+          ]
+        }
+      ],
+      "activeCompId": "compA",
+      "visitSelections": [
+        {
+          "performancePlanId": "plan1",
+          "visitId": "visit2",
+          "compId": "compB"
+        }
+      ],
+      "liveSelection": {
+        "mode": "weighted",
+        "candidates": [
+          {
+            "compId": "compA",
+            "weight": 3
+          },
+          {
+            "compId": "compB",
+            "weight": 1
+          }
+        ]
+      },
+      "takeSelectionHistory": [
+        {
+          "sequence": 0,
+          "compId": "compA",
+          "actorId": "editor"
+        }
+      ]
+    }
+  ],
+  "document": {
+    "id": "take-comp-demo",
+    "revisionId": "take-r1"
+  }
+}
